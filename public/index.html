@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LernBrücke – Kostenloses Lern-Toolkit für Schülerinnen und Schüler zwischen 10 und 16 Jahren. Lernstrategien, Tipps gegen Prüfungsangst und kostenlose Ressourcen.">
+  <title>LernBrücke — Kostenlose Lernhilfe für alle</title>
+  <style>
+    /* ─── Reset & Base ───────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blau:       #1b3f7a;   /* tief, Hero-Hintergrund, Überschriften */
+      --mittel:     #4a84c4;   /* mittleres Blau, Borders, Highlights  */
+      --akzent:     #e8820c;   /* warmes Amber — taktischer Kontrast   */
+      --hell:       #d6e8f8;   /* pastellblau hell                     */
+      --blassbg:    #f0f7ff;   /* seiten-background alternierend       */
+      --text:       #1a2840;   /* dunkelblau-schwarz                   */
+      --weiss:      #ffffff;
+      --font:       "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius:     12px;
+      --shadow:     0 4px 24px rgba(27,63,122,.13);
+      --transition: .28s cubic-bezier(.4,0,.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      font-size: 16px;
+      color: var(--text);
+      background: var(--weiss);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ─── Keyframes ──────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+
+    /* ─── Skip Link ──────────────────────────────────── */
+    .skip {
+      position: absolute; top: -100%; left: 1rem;
+      background: var(--gruen); color: #fff; padding: .5rem 1rem;
+      border-radius: 0 0 var(--radius) var(--radius); font-weight: 700;
+      transition: top .2s; z-index: 9999; text-decoration: none;
+    }
+    .skip:focus { top: 0; }
+
+    /* ─── Nav ────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(27,63,122,.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(74,132,196,.3);
+    }
+    .nav-logo {
+      font-size: 1.25rem; font-weight: 800; color: #fff;
+      letter-spacing: -.02em; text-decoration: none;
+    }
+    .nav-logo span { color: #7db8ea; }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--akzent); color: #fff;
+      font-size: .85rem; font-weight: 700; letter-spacing: .01em;
+      padding: .5rem 1.1rem; border-radius: 50px; text-decoration: none;
+      transition: var(--transition); border: 2px solid transparent;
+    }
+    .nav-cta:hover { background: #fff; color: var(--blau); }
+    .nav-cta:focus-visible { outline: 3px solid var(--akzent); outline-offset: 2px; }
+
+    /* ─── Hero ───────────────────────────────────────── */
+    .hero {
+      position: relative; overflow: hidden;
+      min-height: 100svh; min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
+      background: var(--blau);
+    }
+
+    /* Subtle dot-grid texture */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    /* Decorative blob */
+    .hero-blob {
+      position: absolute; right: -8%; top: -10%;
+      width: min(55vw, 520px); aspect-ratio: 1;
+      border-radius: 60% 40% 70% 30% / 50% 60% 40% 70%;
+      background: linear-gradient(135deg, rgba(74,132,196,.28) 0%, rgba(27,63,122,.0) 70%);
+      animation: float 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .hero-blob-2 {
+      position: absolute; left: -5%; bottom: -15%;
+      width: min(40vw, 380px); aspect-ratio: 1;
+      border-radius: 40% 60% 30% 70% / 60% 40% 70% 50%;
+      background: linear-gradient(135deg, rgba(214,232,248,.10) 0%, transparent 70%);
+      animation: float 11s ease-in-out infinite reverse;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      max-width: 760px; width: 100%;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.22);
+      color: #b8d8f5; font-size: .8rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: .35rem .9rem; border-radius: 50px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .6s ease both;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--akzent); flex-shrink: 0;
+    }
+
+    .hero-title {
+      font-size: clamp(3.2rem, 10vw, 7.5rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: .95;
+      letter-spacing: -.04em;
+      animation: fadeUp .7s .1s ease both;
+    }
+    .hero-title .bridge {
+      display: block;
+      color: transparent;
+      background: linear-gradient(90deg, #7db8ea, #b8d8f5, #7db8ea, #d6e8f8);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: fadeUp .7s .1s ease both, shimmer 4s linear 1s infinite;
+    }
+
+    .hero-tagline {
+      margin-top: 1.4rem;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 300;
+      color: rgba(255,255,255,.85);
+      letter-spacing: -.01em;
+      animation: fadeUp .7s .2s ease both;
+    }
+
+    .hero-desc {
+      margin-top: 1rem;
+      font-size: clamp(.9rem, 2vw, 1.05rem);
+      color: rgba(255,255,255,.65);
+      max-width: 520px;
+      animation: fadeUp .7s .3s ease both;
+    }
+
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+      justify-content: center;
+      margin-top: 2.2rem;
+      animation: fadeUp .7s .4s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--akzent); color: #fff;
+      font-size: 1rem; font-weight: 800; letter-spacing: -.01em;
+      padding: .9rem 2rem; border-radius: 50px; text-decoration: none;
+      border: 2px solid var(--akzent);
+      box-shadow: 0 8px 32px rgba(232,130,12,.35);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .btn-primary:hover {
+      background: #fff; color: var(--blau); border-color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.22);
+    }
+    .btn-primary:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+    .btn-primary svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: .4rem;
+      color: rgba(255,255,255,.8); font-size: .9rem; font-weight: 600;
+      text-decoration: none; padding: .5rem .2rem;
+      border-bottom: 1px solid rgba(255,255,255,.3);
+      transition: var(--transition);
+    }
+    .btn-ghost:hover { color: #fff; border-color: #fff; }
+
+    /* Hero stats */
+    .hero-stats {
+      position: relative; z-index: 2;
+      display: flex; flex-wrap: wrap; gap: 2.5rem;
+      justify-content: center;
+      margin-top: 4rem;
+      animation: fadeUp .7s .55s ease both;
+    }
+    .stat { color: rgba(255,255,255,.9); text-align: center; }
+    .stat-num {
+      font-size: 2rem; font-weight: 900; letter-spacing: -.04em;
+      color: #fff; line-height: 1;
+    }
+    .stat-num span { color: #7db8ea; }
+    .stat-label { font-size: .78rem; color: rgba(255,255,255,.5); margin-top: .25rem; letter-spacing: .03em; text-transform: uppercase; }
+
+    /* Wave divider */
+    .wave { display: block; width: 100%; height: auto; margin-bottom: -1px; }
+
+    /* ─── Sections ───────────────────────────────────── */
+    section { padding: 5rem 2rem; }
+
+    .container { max-width: 1040px; margin: 0 auto; width: 100%; }
+
+    .section-label {
+      display: inline-block;
+      font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mittel);
+      margin-bottom: .75rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; letter-spacing: -.03em;
+      color: var(--blau); line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1.05rem; color: #555; max-width: 580px; line-height: 1.7;
+    }
+
+    /* ─── About ──────────────────────────────────────── */
+    .about { background: var(--weiss); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .about-visual {
+      background: var(--blassbg);
+      border: 2px solid var(--hell); /* hell = --hell: #d6e8f8 */
+      border-radius: 24px;
+      padding: 2.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .about-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      margin-top: 1.5rem;
+      background: var(--blassbg); border: 1.5px solid var(--hell);
+      color: var(--blau); font-size: .8rem; font-weight: 700;
+      letter-spacing: .03em; padding: .5rem 1rem; border-radius: 50px;
+    }
+    .about-badge svg { color: var(--akzent); flex-shrink: 0; }
+
+    .check-item {
+      display: flex; align-items: flex-start; gap: .8rem;
+    }
+    .check-icon {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--mittel); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 800; flex-shrink: 0; margin-top: .1rem;
+    }
+    .check-text { font-size: .95rem; color: var(--text); font-weight: 500; }
+
+    /* ─── Chapters ───────────────────────────────────── */
+    .chapters { background: var(--blassbg); } /* pastellblau */
+    .chapters-header { text-align: center; margin-bottom: 3rem; }
+    .chapters-header .section-sub { margin: 0 auto; }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 640px) {
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+    /* Letzte Karte bei ungerader Anzahl mittig */
+    .cards-grid .card:last-child:nth-child(odd) {
+      grid-column: 1 / -1; max-width: 460px; margin: 0 auto; width: 100%;
+    }
+    .card {
+      background: var(--weiss);
+      border: 1.5px solid var(--hell);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: var(--transition);
+      cursor: default;
+    }
+    .card:hover {
+      border-color: var(--mittel);
+      box-shadow: var(--shadow);
+      transform: translateY(-4px);
+    }
+    .card-num {
+      font-size: .7rem; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mittel); margin-bottom: .6rem;
+    }
+    .card-icon {
+      width: 44px; height: 44px; margin-bottom: .85rem;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--hell); border-radius: 10px;
+      color: var(--blau); flex-shrink: 0;
+    }
+    .card-icon svg { width: 24px; height: 24px; }
+
+    .persona-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--hell);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto .85rem;
+      color: var(--blau);
+    }
+    .persona-icon svg { width: 28px; height: 28px; }
+    .card-title {
+      font-size: 1.05rem; font-weight: 800;
+      color: var(--blau); letter-spacing: -.02em;
+      margin-bottom: .5rem;
+    }
+    .card-desc { font-size: .875rem; color: #666; line-height: 1.6; }
+
+    /* ─── For Whom ───────────────────────────────────── */
+    .forwhom { background: var(--weiss); }
+    .forwhom-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%,220px),1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .persona {
+      background: var(--blassbg);
+      border: 1.5px solid var(--hell);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem; text-align: center;
+      transition: var(--transition);
+    }
+    .persona:hover { border-color: var(--mittel); box-shadow: var(--shadow); }
+    .persona-title {
+      font-size: 1rem; font-weight: 800; color: var(--blau);
+      letter-spacing: -.01em; margin-bottom: .5rem;
+    }
+    .persona-desc { font-size: .85rem; color: #666; line-height: 1.65; }
+
+    /* ─── Quote ──────────────────────────────────────── */
+    .quote-section {
+      background: var(--blau); color: #fff;
+      padding: 5rem 2rem;
+    }
+    .quote-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+    .quote-mark {
+      font-size: 6rem; line-height: .6; color: rgba(74,132,196,.45);
+      font-weight: 900; margin-bottom: 1rem; display: block;
+      font-family: Georgia, serif;
+    }
+    .quote-text {
+      font-size: clamp(1.2rem, 3vw, 1.65rem);
+      font-weight: 300; line-height: 1.55;
+      color: rgba(255,255,255,.9);
+      letter-spacing: -.01em;
+    }
+    .quote-text strong { color: #7db8ea; font-weight: 700; }
+    .quote-author {
+      margin-top: 1.75rem; font-size: .85rem;
+      color: rgba(255,255,255,.5); letter-spacing: .05em; text-transform: uppercase;
+    }
+
+    /* ─── Download CTA ───────────────────────────────── */
+    .cta-section { background: var(--blassbg); padding: 5rem 2rem; }
+    .cta-inner {
+      max-width: 720px; margin: 0 auto;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      gap: 1.5rem;
+    }
+    .cta-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--weiss); border: 1.5px solid rgba(27,63,122,.2);
+      color: var(--blau); font-size: .8rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: .4rem .9rem; border-radius: 50px;
+    }
+    .cta-title {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900; letter-spacing: -.04em; color: var(--blau);
+      line-height: 1.1;
+    }
+    .cta-sub { font-size: 1rem; color: #445; max-width: 480px; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--akzent); color: #fff;
+      font-size: 1.05rem; font-weight: 800; letter-spacing: -.01em;
+      padding: 1rem 2.2rem; border-radius: 50px; text-decoration: none;
+      border: 2px solid var(--akzent);
+      box-shadow: 0 8px 32px rgba(232,130,12,.32);
+      transition: var(--transition);
+    }
+    .cta-btn:hover {
+      background: var(--blau); color: #fff; border-color: var(--blau);
+      box-shadow: 0 16px 48px rgba(27,63,122,.22);
+      transform: translateY(-2px);
+    }
+    .cta-btn:focus-visible { outline: 3px solid var(--blau); outline-offset: 3px; }
+    .cta-btn svg { width: 20px; height: 20px; }
+    .cta-note { font-size: .8rem; color: #777; }
+
+    /* ─── Footer ─────────────────────────────────────── */
+    footer {
+      background: var(--blau); color: rgba(255,255,255,.7);
+      padding: 2.5rem 2rem;
+      font-size: .85rem;
+    }
+    .footer-inner {
+      max-width: 1040px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      justify-content: space-between; align-items: center;
+    }
+    .footer-logo {
+      font-weight: 800; color: #fff; font-size: 1rem; letter-spacing: -.02em;
+    }
+    .footer-logo span { color: #7db8ea; }
+    footer a { color: rgba(255,255,255,.65); text-decoration: underline; }
+    footer a:hover { color: #fff; }
+
+    /* ─── Scroll reveal ──────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible {
+      opacity: 1; transform: translateY(0);
+    }
+
+    /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 680px) {
+      nav { padding: .85rem 1.25rem; }
+      .hero { padding: 7rem 1.25rem 4rem; }
+      .hero-stats { gap: 1.5rem; }
+      section { padding: 3.5rem 1.25rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .quote-mark { font-size: 4rem; }
+      footer { text-align: center; }
+      .footer-inner { flex-direction: column; align-items: center; gap: .75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip" href="#main">Zum Inhalt springen</a>
+
+  <!-- Nav -->
+  <nav aria-label="Hauptnavigation">
+    <a href="/" class="nav-logo">Lern<span>Brücke</span></a>
+    <a href="./lernbruecke.pdf" class="nav-cta" download>
+      <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+        <path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/>
+        <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/>
+      </svg>
+      PDF herunterladen
+    </a>
+  </nav>
+
+  <main id="main">
+
+    <!-- ── Hero ── -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-blob" aria-hidden="true"></div>
+      <div class="hero-blob-2" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+        <div class="hero-eyebrow">Kostenlos · Für alle Schülerinnen & Schüler</div>
+
+        <h1 class="hero-title" id="hero-heading">
+          Lern
+          <span class="bridge">Brücke</span>
+        </h1>
+
+        <p class="hero-tagline">Kostenlose Lernhilfe für alle</p>
+
+        <p class="hero-desc">
+          Ein Toolkit für Schülerinnen und Schüler zwischen 10 und 16 Jahren.
+          Mit Tipps zu Lernstrategien, Prüfungsangst und kostenlosen Lernquellen —
+          ohne Anmeldung, ohne Kosten.
+        </p>
+
+        <div class="hero-actions">
+          <a href="./lernbruecke.pdf" class="btn-primary" download aria-label="LernBrücke PDF kostenlos herunterladen">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/>
+              <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/>
+            </svg>
+            Jetzt kostenlos herunterladen
+          </a>
+          <a href="#kapitel" class="btn-ghost">Was ist drin? ↓</a>
+        </div>
+      </div>
+
+      <div class="hero-stats" aria-label="Projektdaten">
+        <div class="stat">
+          <div class="stat-num">5<span>×</span></div>
+          <div class="stat-label">Kapitel</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100<span>%</span></div>
+          <div class="stat-label">Kostenlos</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">10–16</div>
+          <div class="stat-label">Jahre</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave -->
+    <svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="background:#1b3f7a">
+      <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#ffffff"/>
+    </svg>
+
+    <!-- ── About ── -->
+    <section class="about" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="about-grid">
+          <div class="reveal">
+            <span class="section-label">Über das Projekt</span>
+            <h2 class="section-title" id="about-heading">Warum LernBrücke?</h2>
+            <p class="section-sub">
+              Viele Schülerinnen und Schüler lernen abends allein am Küchentisch.
+              Keine Nachhilfe, keine ruhige Ecke, niemand der hilft — nicht weil
+              sie es nicht wollen, sondern weil es schlicht nicht möglich ist.
+              LernBrücke gibt genau diesen Kindern etwas in die Hand: konkrete
+              Strategien, die funktionieren — ganz ohne Geld und Anmeldung.
+            </p>
+            <div class="about-badge">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.83-4.401Z" clip-rule="evenodd"/>
+              </svg>
+              Kostenlos · Für alle · Darf geteilt werden
+            </div>
+          </div>
+          <div class="about-visual reveal" aria-label="Was das Toolkit bietet">
+            <div class="check-item">
+              <div class="check-icon" aria-hidden="true">✓</div>
+              <span class="check-text">Lernstrategien, die wirklich funktionieren</span>
+            </div>
+            <div class="check-item">
+              <div class="check-icon" aria-hidden="true">✓</div>
+              <span class="check-text">Tipps für Eltern — ohne pädagogisches Vorwissen</span>
+            </div>
+            <div class="check-item">
+              <div class="check-icon" aria-hidden="true">✓</div>
+              <span class="check-text">Kostenlose Lernseiten für alle Fächer</span>
+            </div>
+            <div class="check-item">
+              <div class="check-icon" aria-hidden="true">✓</div>
+              <span class="check-text">Hilfe bei Prüfungsangst — konkret und ruhig erklärt</span>
+            </div>
+            <div class="check-item">
+              <div class="check-icon" aria-hidden="true">✓</div>
+              <span class="check-text">Motivation — direkt von Schüler zu Schüler</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Chapters ── -->
+    <section class="chapters" id="kapitel" aria-labelledby="chapters-heading">
+      <div class="container">
+        <div class="chapters-header reveal">
+          <span class="section-label">Inhalt</span>
+          <h2 class="section-title" id="chapters-heading">5 Kapitel. Klare Antworten.</h2>
+          <p class="section-sub">Kein Fachchinesisch, kein Lehrerdeutsch. Nur das, was hilft.</p>
+        </div>
+
+        <div class="cards-grid" role="list">
+          <article class="card reveal" role="listitem">
+            <div class="card-num">Kapitel 1</div>
+            <div class="card-icon" aria-hidden="true">
+              <!-- Buch / Lernstrategien -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Lernstrategien für zu Hause</h3>
+            <p class="card-desc">Pomodoro, Wochenplan, aktives Wiederholen — so bleibt Stoff im Gedächtnis.</p>
+          </article>
+          <article class="card reveal" role="listitem">
+            <div class="card-num">Kapitel 2</div>
+            <div class="card-icon" aria-hidden="true">
+              <!-- Haus / Eltern -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Wie Eltern helfen können</h3>
+            <p class="card-desc">Struktur geben, richtig fragen, ehrlich loben — ohne Druck.</p>
+          </article>
+          <article class="card reveal" role="listitem">
+            <div class="card-num">Kapitel 3</div>
+            <div class="card-icon" aria-hidden="true">
+              <!-- Monitor / Online-Ressourcen -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Kostenlose Ressourcen online</h3>
+            <p class="card-desc">Khan Academy, Studyflix, Stadtbibliothek — alles umsonst, alles getestet.</p>
+          </article>
+          <article class="card reveal" role="listitem">
+            <div class="card-num">Kapitel 4</div>
+            <div class="card-icon" aria-hidden="true">
+              <!-- Herz / Prüfungsangst -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Tipps gegen Prüfungsangst</h3>
+            <p class="card-desc">Was wirklich hilft — vor, während und nach der Prüfung.</p>
+          </article>
+          <article class="card reveal" role="listitem">
+            <div class="card-num">Kapitel 5</div>
+            <div class="card-icon" aria-hidden="true">
+              <!-- Stern / Motivation -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Motivationsseite für Schüler</h3>
+            <p class="card-desc">Nicht Talent entscheidet — sondern wie oft du weitermachst.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── For Whom ── -->
+    <section class="forwhom" aria-labelledby="forwhom-heading">
+      <div class="container">
+        <div class="reveal" style="text-align:center;margin-bottom:0">
+          <span class="section-label">Für wen</span>
+          <h2 class="section-title" id="forwhom-heading">Für alle, die Unterstützung brauchen.</h2>
+          <p class="section-sub" style="margin:0 auto">Egal ob du selbst lernst, ein Kind begleitest oder das Toolkit weitergibst.</p>
+        </div>
+        <div class="forwhom-grid">
+          <div class="persona reveal">
+            <div class="persona-icon" aria-hidden="true">
+              <!-- Schüler / Rucksack -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div class="persona-title">Schülerinnen & Schüler</div>
+            <p class="persona-desc">10–16 Jahre. Ihr findet Strategien, die im echten Alltag funktionieren.</p>
+          </div>
+          <div class="persona reveal">
+            <div class="persona-icon" aria-hidden="true">
+              <!-- Eltern / Personen -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div class="persona-title">Eltern & Familien</div>
+            <p class="persona-desc">Ihr müsst kein Mathe können. Aber ihr könnt Struktur und Sicherheit geben.</p>
+          </div>
+          <div class="persona reveal">
+            <div class="persona-icon" aria-hidden="true">
+              <!-- Lehrkräfte / Gebäude -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/>
+              </svg>
+            </div>
+            <div class="persona-title">Lehrkräfte & Sozialarbeit</div>
+            <p class="persona-desc">Einfach ausdrucken oder digital teilen — sofort einsetzbar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Quote ── -->
+    <section class="quote-section" aria-label="Zitat">
+      <div class="quote-inner reveal">
+        <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+        <p class="quote-text">
+          Erfolg ist nicht endgültig, Misserfolg ist nicht fatal —
+          es ist der <strong>Mut weiterzumachen</strong>, der zählt.
+        </p>
+        <p class="quote-author">Winston Churchill</p>
+      </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="cta-section" aria-labelledby="cta-heading">
+      <div class="cta-inner">
+        <span class="cta-badge">
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/>
+          </svg>
+          100% kostenlos · Kein Account · Darf geteilt werden
+        </span>
+        <h2 class="cta-title" id="cta-heading">Dein Lernen beginnt jetzt.</h2>
+        <p class="cta-sub">Kostenlos. Keine Anmeldung. Darf geteilt werden.</p>
+        <a href="./lernbruecke.pdf" class="cta-btn" download aria-label="LernBrücke PDF herunterladen">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/>
+            <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/>
+          </svg>
+          PDF herunterladen
+        </a>
+        <p class="cta-note">PDF · Kein Account · Keine E-Mail · Kein Abo</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">Lern<span>Brücke</span></div>
+        <div style="margin-top:.3rem;font-size:.8rem;">Kostenlos · Für alle Schülerinnen & Schüler</div>
+      </div>
+      <div style="text-align:center;">
+        <div>Bildungsgerechtigkeit · Kein Abo · Kein Account</div>
+      </div>
+      <div>
+        <a href="mailto:steve@lernbruecke.de">steve@lernbruecke.de</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
+      { threshold: 0.12 }
+    );
+    reveals.forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
