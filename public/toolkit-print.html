@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LernBrücke – Toolkit zum Ausdrucken</title>
+  <style>
+    /* ─── Variablen ─────────────────────────────────── */
+    :root {
+      --blau:    #1b3f7a;
+      --mittel:  #4a84c4;
+      --akzent:  #e8820c;
+      --hell:    #d6e8f8;
+      --blassbg: #f0f7ff;
+      --text:    #1a2840;
+      --grau:    #5a6a80;
+      --weiss:   #ffffff;
+      --font:    "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    /* ─── Reset & Base ──────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      font-size: 10.5pt;
+      color: var(--text);
+      background: var(--weiss);
+      line-height: 1.6;
+    }
+
+    /* ─── Seitenstruktur ─────────────────────────────── */
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      padding: 0;
+      background: var(--weiss);
+    }
+
+    /* ─── Deckblatt ──────────────────────────────────── */
+    .cover {
+      width: 100%;
+      min-height: 297mm;
+      display: flex;
+      flex-direction: column;
+      page-break-after: always;
+    }
+    .cover-header {
+      background: var(--blau);
+      padding: 18mm 16mm 14mm;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-header::after {
+      content: '';
+      position: absolute;
+      right: -20mm; top: -20mm;
+      width: 90mm; height: 90mm;
+      border-radius: 50%;
+      background: rgba(74,132,196,.18);
+    }
+    .cover-logo {
+      font-size: 36pt;
+      font-weight: 900;
+      color: var(--weiss);
+      letter-spacing: -.03em;
+      line-height: 1;
+      position: relative; z-index: 1;
+    }
+    .cover-logo span { color: #7db8ea; }
+    .cover-tagline {
+      font-size: 13pt;
+      color: rgba(255,255,255,.8);
+      margin-top: 4mm;
+      font-weight: 300;
+      position: relative; z-index: 1;
+    }
+    .cover-bar {
+      background: var(--akzent);
+      height: 3px;
+    }
+    .cover-body {
+      flex: 1;
+      padding: 14mm 16mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .cover-intro {
+      max-width: 150mm;
+    }
+    .cover-intro p {
+      font-size: 11.5pt;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 6mm;
+    }
+    .cover-chapters {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4mm;
+      margin-top: 10mm;
+    }
+    .cover-chapter-item {
+      background: var(--blassbg);
+      border: 1px solid var(--hell);
+      border-left: 3px solid var(--mittel);
+      border-radius: 4px;
+      padding: 4mm 5mm;
+    }
+    .cover-chapter-num {
+      font-size: 7pt;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--mittel);
+      margin-bottom: 1mm;
+    }
+    .cover-chapter-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: var(--blau);
+    }
+    .cover-footer {
+      border-top: 1px solid var(--hell);
+      padding: 6mm 16mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cover-footer-text {
+      font-size: 8pt;
+      color: var(--grau);
+    }
+    .cover-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 2mm;
+      background: var(--blassbg);
+      border: 1px solid var(--hell);
+      border-radius: 50px;
+      padding: 1.5mm 4mm;
+      font-size: 7.5pt;
+      font-weight: 700;
+      color: var(--blau);
+    }
+    .cover-badge::before {
+      content: '★';
+      color: var(--akzent);
+      font-size: 8pt;
+    }
+
+    /* ─── Kapitelseiten ──────────────────────────────── */
+    .chapter {
+      width: 100%;
+      min-height: 297mm;
+      page-break-before: always;
+      display: flex;
+      flex-direction: column;
+    }
+    .chapter-header {
+      background: var(--blau);
+      padding: 10mm 16mm 8mm;
+      display: flex;
+      align-items: flex-end;
+      gap: 5mm;
+    }
+    .chapter-num-large {
+      font-size: 42pt;
+      font-weight: 900;
+      color: rgba(255,255,255,.15);
+      line-height: 1;
+      letter-spacing: -.04em;
+      flex-shrink: 0;
+    }
+    .chapter-header-text { flex: 1; }
+    .chapter-label {
+      font-size: 7pt;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #7db8ea;
+      margin-bottom: 1mm;
+    }
+    .chapter-title-header {
+      font-size: 17pt;
+      font-weight: 800;
+      color: var(--weiss);
+      letter-spacing: -.02em;
+      line-height: 1.15;
+    }
+    .chapter-bar { background: var(--akzent); height: 3px; }
+    .chapter-body {
+      flex: 1;
+      padding: 10mm 16mm 8mm;
+    }
+    .chapter-lead {
+      font-size: 10.5pt;
+      color: var(--grau);
+      border-left: 3px solid var(--akzent);
+      padding-left: 4mm;
+      margin-bottom: 8mm;
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    /* ─── Abschnitte ─────────────────────────────────── */
+    .section { margin-bottom: 7mm; }
+    .section-title {
+      font-size: 10.5pt;
+      font-weight: 800;
+      color: var(--blau);
+      letter-spacing: -.01em;
+      margin-bottom: 2.5mm;
+      padding-bottom: 1.5mm;
+      border-bottom: 1.5px solid var(--hell);
+    }
+    .section-text {
+      font-size: 10pt;
+      color: var(--text);
+      line-height: 1.65;
+      margin-bottom: 2.5mm;
+    }
+
+    /* ─── Listen ─────────────────────────────────────── */
+    ul.tips {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5mm;
+    }
+    ul.tips li {
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5mm;
+      font-size: 10pt;
+      color: var(--text);
+      line-height: 1.55;
+    }
+    ul.tips li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 5mm;
+      height: 5mm;
+      border-radius: 50%;
+      background: var(--mittel);
+      margin-top: .8mm;
+    }
+
+    /* ─── Callout-Boxen ──────────────────────────────── */
+    .callout {
+      background: var(--blassbg);
+      border: 1px solid var(--hell);
+      border-left: 3px solid var(--mittel);
+      border-radius: 4px;
+      padding: 4mm 5mm;
+      margin: 3mm 0;
+    }
+    .callout p, .callout li {
+      font-size: 9.5pt;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .callout-label {
+      font-size: 7pt;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--mittel);
+      margin-bottom: 1.5mm;
+    }
+
+    .callout-amber {
+      background: #fff8f0;
+      border-color: #f5c896;
+      border-left-color: var(--akzent);
+    }
+    .callout-amber .callout-label { color: var(--akzent); }
+
+    /* ─── Zitat ──────────────────────────────────────── */
+    .quote-block {
+      background: var(--blau);
+      border-radius: 6px;
+      padding: 5mm 6mm;
+      margin: 4mm 0;
+      text-align: center;
+    }
+    .quote-block .q-text {
+      font-size: 10.5pt;
+      color: rgba(255,255,255,.9);
+      font-style: italic;
+      line-height: 1.6;
+    }
+    .quote-block .q-author {
+      font-size: 8pt;
+      color: #7db8ea;
+      margin-top: 2mm;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    /* ─── Tabelle ────────────────────────────────────── */
+    table.resource-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 3mm 0;
+      font-size: 9.5pt;
+    }
+    table.resource-table th {
+      background: var(--blau);
+      color: var(--weiss);
+      padding: 2.5mm 3.5mm;
+      text-align: left;
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: .03em;
+    }
+    table.resource-table td {
+      padding: 2.5mm 3.5mm;
+      border-bottom: 1px solid var(--hell);
+      color: var(--text);
+      vertical-align: top;
+    }
+    table.resource-table tr:nth-child(even) td { background: var(--blassbg); }
+
+    /* ─── 2-Spalten-Layout ───────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5mm;
+      margin: 3mm 0;
+    }
+
+    /* ─── Checkliste ─────────────────────────────────── */
+    .checklist { display: flex; flex-direction: column; gap: 2mm; }
+    .check-item {
+      display: flex; align-items: flex-start; gap: 2.5mm;
+      font-size: 9.5pt; color: var(--text); line-height: 1.5;
+    }
+    .check-box {
+      flex-shrink: 0;
+      width: 4mm; height: 4mm;
+      border: 1.5px solid var(--mittel);
+      border-radius: 1px;
+      margin-top: .5mm;
+    }
+
+    /* ─── Schreibfeld ────────────────────────────────── */
+    .write-field {
+      border: 1px solid var(--hell);
+      border-radius: 4px;
+      padding: 3mm;
+      margin: 2mm 0;
+    }
+    .write-line {
+      border-bottom: 1px solid #dde6f5;
+      height: 7mm;
+      margin-bottom: 1mm;
+    }
+    .write-label {
+      font-size: 7.5pt;
+      color: var(--grau);
+      margin-bottom: 2mm;
+    }
+
+    /* ─── Seitenfußzeile ─────────────────────────────── */
+    .page-footer {
+      border-top: 1px solid var(--hell);
+      padding: 3mm 16mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .page-footer-logo {
+      font-size: 8pt;
+      font-weight: 800;
+      color: var(--blau);
+    }
+    .page-footer-logo span { color: var(--mittel); }
+    .page-footer-text { font-size: 7.5pt; color: var(--grau); }
+
+    /* ─── Print ──────────────────────────────────────── */
+    @media print {
+      @page { size: A4; margin: 0; }
+      body { background: white; }
+      .page, .cover, .chapter { box-shadow: none; }
+      .no-print { display: none !important; }
+    }
+
+    /* ─── Screen Preview ─────────────────────────────── */
+    @media screen {
+      body { background: #e8edf5; padding: 10mm 0; }
+      .page, .cover, .chapter { box-shadow: 0 2px 20px rgba(0,0,0,.12); margin-bottom: 8mm; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ PRINT BUTTON ════════════════ -->
+<div class="no-print" style="text-align:center;padding:6mm 0;font-family:sans-serif;">
+  <button onclick="window.print()" style="background:#1b3f7a;color:#fff;border:none;padding:10px 28px;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:-.01em;">
+    Als PDF speichern / Drucken
+  </button>
+</div>
+
+<!-- ═══════════════ DECKBLATT ════════════════════ -->
+<div class="cover page">
+  <div class="cover-header">
+    <div class="cover-logo">Lern<span>Brücke</span></div>
+    <div class="cover-tagline">Lernstrategien, die wirklich funktionieren — kostenlos, ohne Anmeldung.</div>
+  </div>
+  <div class="cover-bar"></div>
+
+  <div class="cover-body">
+    <div>
+      <div class="cover-intro">
+        <p>Dieses Toolkit richtet sich an Schülerinnen und Schüler zwischen 10 und 16 Jahren sowie an ihre Familien. Es enthält praxiserprobte Methoden, konkrete Hilfestellungen und ehrliche Motivation — ohne pädagogisches Fachchinesisch.</p>
+        <p>Alle Inhalte sind kostenlos. Das Dokument darf ausgedruckt, geteilt und weitergegeben werden.</p>
+      </div>
+
+      <div class="cover-chapters">
+        <div class="cover-chapter-item">
+          <div class="cover-chapter-num">Kapitel 1</div>
+          <div class="cover-chapter-title">Lernstrategien für zu Hause</div>
+        </div>
+        <div class="cover-chapter-item">
+          <div class="cover-chapter-num">Kapitel 2</div>
+          <div class="cover-chapter-title">Wie Eltern helfen können</div>
+        </div>
+        <div class="cover-chapter-item">
+          <div class="cover-chapter-num">Kapitel 3</div>
+          <div class="cover-chapter-title">Kostenlose Ressourcen online</div>
+        </div>
+        <div class="cover-chapter-item">
+          <div class="cover-chapter-num">Kapitel 4</div>
+          <div class="cover-chapter-title">Tipps gegen Prüfungsangst</div>
+        </div>
+        <div class="cover-chapter-item" style="grid-column:1/-1;max-width:calc(50% - 2mm);">
+          <div class="cover-chapter-num">Kapitel 5</div>
+          <div class="cover-chapter-title">Motivationsseite für Schülerinnen & Schüler</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <span class="cover-footer-text">LernBrücke · Kostenlos · Darf geteilt werden · lernbruecke.de</span>
+    <span class="cover-badge">Für alle Schülerinnen &amp; Schüler</span>
+  </div>
+</div>
+
+<!-- ═══════════════ KAPITEL 1 ════════════════════ -->
+<div class="chapter page">
+  <div class="chapter-header">
+    <div class="chapter-num-large">1</div>
+    <div class="chapter-header-text">
+      <div class="chapter-label">Kapitel 1</div>
+      <div class="chapter-title-header">Lernstrategien für zu Hause</div>
+    </div>
+  </div>
+  <div class="chapter-bar"></div>
+
+  <div class="chapter-body">
+    <p class="chapter-lead">Effektives Lernen hat wenig mit Talent zu tun — aber viel mit Methode. Diese Strategien sind wissenschaftlich erprobt, kostenlos umsetzbar und sofort wirksam.</p>
+
+    <div class="section">
+      <div class="section-title">1.1 Der richtige Lernort</div>
+      <p class="section-text">Ein fester, ruhiger Platz erhöht die Konzentration messbar. Das Gehirn verknüpft den Ort mit der Tätigkeit — und kommt schneller in den Fokus.</p>
+      <ul class="tips">
+        <li>Immer denselben Platz wählen — kein Sofa, kein Bett.</li>
+        <li>Handy in einen anderen Raum legen oder auf Flugmodus stellen.</li>
+        <li>Ausreichend Licht (am besten Tageslicht), Wasser bereitstellen.</li>
+        <li>Vor dem Lernen: Heft, Buch, Stift bereitlegen — damit nichts unterbricht.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">1.2 Die Pomodoro-Methode</div>
+      <p class="section-text">Kurze, fokussierte Einheiten sind effektiver als stundenlanges, unkonzentriertes Lernen.</p>
+      <div class="two-col">
+        <div class="callout">
+          <div class="callout-label">So funktioniert es</div>
+          <ul class="tips">
+            <li><strong>25 Min.</strong> voll konzentriert lernen</li>
+            <li><strong>5 Min.</strong> Pause — aufstehen, bewegen</li>
+            <li>Nach 4 Runden: <strong>20–30 Min.</strong> lange Pause</li>
+          </ul>
+        </div>
+        <div class="callout callout-amber">
+          <div class="callout-label">Wichtig</div>
+          <p>Kein Handy während der 25 Minuten. Nicht einmal kurz. Die Unterbrechung kostet 15 Minuten Wiederanlaufzeit.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">1.3 Aktiv wiederholen — nicht nur lesen</div>
+      <p class="section-text">Passives Lesen ist die ineffizienteste Lernmethode. Aktives Erinnern hingegen verdoppelt die Behaltensleistung.</p>
+      <ul class="tips">
+        <li><strong>Eigene Worte:</strong> Den Stoff schriftlich zusammenfassen, ohne ins Heft zu schauen.</li>
+        <li><strong>Laut erklären:</strong> Den Stoff erklären, als ob jemand zuhört — Lücken werden sofort spürbar.</li>
+        <li><strong>Selbst testen:</strong> Eigene Fragen formulieren und beantworten.</li>
+        <li><strong>Karteikarten:</strong> Frage vorne, Antwort hinten — täglich 10 Karten wiederholen.</li>
+      </ul>
+    </div>
+
+    <div class="two-col">
+      <div class="section">
+        <div class="section-title">1.4 Wochenplan</div>
+        <p class="section-text">Jeden Abend: Was lerne ich morgen? Maximal 3 konkrete Punkte aufschreiben.</p>
+        <div class="callout">
+          <p><strong>Mo:</strong> Mathe S. 45–48<br><strong>Di:</strong> Englisch 10 Vokabeln<br><strong>Mi:</strong> Bio-Kapitel zusammenfassen</p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">1.5 Schlaf = Lernzeit</div>
+        <p class="section-text">Das Gehirn festigt Gelerntes im Schlaf. 7–8 Stunden sind kein Luxus, sondern Lernstrategie.</p>
+        <div class="callout callout-amber">
+          <p>Nie kürzer als 7 Stunden vor Prüfungen schlafen. Die letzte Stunde Lernen vor dem Schlafen wirkt stärker als 3 Stunden am Nachmittag.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span class="page-footer-logo">Lern<span>Brücke</span></span>
+    <span class="page-footer-text">Kapitel 1 — Lernstrategien · kostenlos · darf geteilt werden</span>
+  </div>
+</div>
+
+<!-- ═══════════════ KAPITEL 2 ════════════════════ -->
+<div class="chapter page">
+  <div class="chapter-header">
+    <div class="chapter-num-large">2</div>
+    <div class="chapter-header-text">
+      <div class="chapter-label">Kapitel 2</div>
+      <div class="chapter-title-header">Wie Eltern helfen können</div>
+    </div>
+  </div>
+  <div class="chapter-bar"></div>
+
+  <div class="chapter-body">
+    <p class="chapter-lead">Eltern müssen den Schulstoff nicht kennen. Was wirklich zählt: Struktur, Interesse und eine ruhige Lernumgebung. Das allein macht einen messbaren Unterschied.</p>
+
+    <div class="two-col">
+      <div class="section">
+        <div class="section-title">2.1 Feste Lernzeit einrichten</div>
+        <ul class="tips">
+          <li>Täglich zur gleichen Zeit — z.B. 16–17 Uhr.</li>
+          <li>Auch wenn der Stoff "leicht" ist: Die Routine ist das Ziel.</li>
+          <li>Keine Störungen während der Lernzeit — auch durch Geschwister nicht.</li>
+          <li>TV und laute Musik in der Wohnung reduzieren.</li>
+        </ul>
+      </div>
+      <div class="section">
+        <div class="section-title">2.2 Interesse zeigen</div>
+        <ul class="tips">
+          <li>"Was habt ihr heute gemacht?" — jeden Tag fragen.</li>
+          <li>"Kannst du mir das erklären?" — auch wenn man es selbst weiß.</li>
+          <li>Beim Erklären lernen Kinder am meisten.</li>
+          <li>Keine Ungeduld zeigen — auch wenn man müde ist.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">2.3 Richtig loben — konkret statt allgemein</div>
+      <p class="section-text">Lob wirkt — aber nur wenn es spezifisch ist. "Du bist so klug" schadet langfristig. "Du hast heute wirklich durchgehalten" stärkt nachhaltig.</p>
+      <div class="two-col">
+        <div class="callout callout-amber">
+          <div class="callout-label">Nicht so</div>
+          <p>"Gut gemacht." · "Du bist schlau." · "Das war einfach."</p>
+        </div>
+        <div class="callout">
+          <div class="callout-label">Sondern so</div>
+          <p>"Du hast 30 Min. durchgehalten — das ist stark." · "Ich sehe, dass du dich anstrengst."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">2.4 Wenn das Kind feststeckt</div>
+      <p class="section-text">Nicht sofort helfen — zuerst gemeinsam die Aufgabe laut lesen. Das allein löst 60% der Blockaden.</p>
+      <ul class="tips">
+        <li>Aufgabe gemeinsam laut vorlesen — oft wird das Problem dadurch klar.</li>
+        <li>Fragen: "Was davon verstehst du schon?" — Anknüpfpunkte finden.</li>
+        <li>Kostenlose Erklärvideos nutzen (Khan Academy, Studyflix — siehe Kapitel 3).</li>
+        <li>Wenn nötig: Lehrkraft am nächsten Tag gezielt ansprechen.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">2.5 Sprachliche Barrieren — kein Hindernis</div>
+      <div class="callout">
+        <div class="callout-label">Für mehrsprachige Familien</div>
+        <p>Deutsch muss nicht die Muttersprache sein, um zu helfen. Präsenz, Interesse und eine ruhige Umgebung wirken unabhängig von der Sprache. Kinder merken, ob ihre Familie Schule ernst nimmt — das allein beeinflusst die Leistung nachweislich.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span class="page-footer-logo">Lern<span>Brücke</span></span>
+    <span class="page-footer-text">Kapitel 2 — Eltern · kostenlos · darf geteilt werden</span>
+  </div>
+</div>
+
+<!-- ═══════════════ KAPITEL 3 ════════════════════ -->
+<div class="chapter page">
+  <div class="chapter-header">
+    <div class="chapter-num-large">3</div>
+    <div class="chapter-header-text">
+      <div class="chapter-label">Kapitel 3</div>
+      <div class="chapter-title-header">Kostenlose Ressourcen online</div>
+    </div>
+  </div>
+  <div class="chapter-bar"></div>
+
+  <div class="chapter-body">
+    <p class="chapter-lead">Gute Lernhilfe muss nichts kosten. Diese Plattformen sind geprüft, auf Deutsch verfügbar und für Schülerinnen und Schüler zwischen 10 und 16 Jahren geeignet.</p>
+
+    <div class="section">
+      <div class="section-title">3.1 Erklärvideos &amp; interaktive Kurse</div>
+      <table class="resource-table">
+        <thead>
+          <tr>
+            <th>Plattform</th>
+            <th>Fächer</th>
+            <th>Klasse</th>
+            <th>Hinweis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Khan Academy</strong><br><small>de.khanacademy.org</small></td>
+            <td>Mathe, Naturwiss., Geschichte</td>
+            <td>5–13</td>
+            <td>Kostenlos, ohne Anmeldung nutzbar</td>
+          </tr>
+          <tr>
+            <td><strong>Studyflix</strong><br><small>studyflix.de</small></td>
+            <td>Alle Schulfächer</td>
+            <td>5–13</td>
+            <td>Kurze Videos, klar strukturiert, Deutsch</td>
+          </tr>
+          <tr>
+            <td><strong>SimpleClub</strong><br><small>YouTube</small></td>
+            <td>Mathe, Physik, Chemie</td>
+            <td>5–10</td>
+            <td>Sehr verständlich, Jugendsprache</td>
+          </tr>
+          <tr>
+            <td><strong>Schulminator</strong><br><small>schulminator.com</small></td>
+            <td>Mathe</td>
+            <td>5–10</td>
+            <td>Aufgaben mit Schritt-für-Schritt-Lösungen</td>
+          </tr>
+          <tr>
+            <td><strong>SRF Schule</strong><br><small>srf.ch/schule</small></td>
+            <td>Alle Fächer</td>
+            <td>5–9</td>
+            <td>Videos zu vielen Themen, Schweizer Deutsch</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="section">
+        <div class="section-title">3.2 Üben &amp; Testen</div>
+        <ul class="tips">
+          <li><strong>bettermarks.com</strong> — Mathe interaktiv, Klasse 4–10</li>
+          <li><strong>learnenglishteens.britishcouncil.org</strong> — Englisch kostenlos</li>
+          <li><strong>duden.de/rechtschreibpruefung</strong> — Rechtschreibung prüfen</li>
+          <li><strong>sofatutor.com</strong> — Teils gratis (Videos), teils kostenpflichtig</li>
+        </ul>
+      </div>
+      <div class="section">
+        <div class="section-title">3.3 Offline: Stadtbibliothek</div>
+        <div class="callout callout-amber">
+          <div class="callout-label">Kostenlos & vor Ort</div>
+          <p>Bibliotheksausweis für Kinder bis 18 Jahre: <strong>kostenlos</strong>. Lernmaterialien, Bücher, kostenloses WLAN und ruhige Lernplätze in vielen Filialen.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">3.4 So findest du gute Erklärvideos</div>
+      <div class="callout">
+        <div class="callout-label">Suchformel</div>
+        <p>YouTube-Suche: <strong>[Thema] + "einfach erklärt" + Klasse</strong><br>
+        Beispiel: <em>"Bruchrechnung einfach erklärt Klasse 6"</em> — liefert zuverlässig passende Videos von SimpleClub, Studyflix oder Daniel Jung.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span class="page-footer-logo">Lern<span>Brücke</span></span>
+    <span class="page-footer-text">Kapitel 3 — Ressourcen · kostenlos · darf geteilt werden</span>
+  </div>
+</div>
+
+<!-- ═══════════════ KAPITEL 4 ════════════════════ -->
+<div class="chapter page">
+  <div class="chapter-header">
+    <div class="chapter-num-large">4</div>
+    <div class="chapter-header-text">
+      <div class="chapter-label">Kapitel 4</div>
+      <div class="chapter-title-header">Tipps gegen Prüfungsangst</div>
+    </div>
+  </div>
+  <div class="chapter-bar"></div>
+
+  <div class="chapter-body">
+    <p class="chapter-lead">Nervosität vor Prüfungen ist normal und sogar hilfreich — wenn sie nicht überhandnimmt. Diese Strategien helfen, den Kopf frei zu bekommen und die Prüfung souverän anzugehen.</p>
+
+    <div class="two-col">
+      <div class="section">
+        <div class="section-title">4.1 Warum Angst entsteht</div>
+        <p class="section-text">Prüfungsangst entsteht aus zwei Quellen: unzureichende Vorbereitung und Katastrophendenken. Beide sind beeinflussbar.</p>
+        <div class="callout callout-amber">
+          <div class="callout-label">Die Wahrheit über Prüfungen</div>
+          <p>Eine schlechte Note ändert selten etwas Grundlegendes. Das Gehirn übertreibt die Konsequenzen — bewusst gegensteuern.</p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">4.2 Vorbereitung — der beste Schutz</div>
+        <ul class="tips">
+          <li>Mindestens <strong>1 Woche vorher</strong> mit Wiederholung beginnen.</li>
+          <li>Kurze Einheiten täglich — nicht alles am Vorabend.</li>
+          <li>Probeprüfung unter echten Bedingungen: Zeitlimit, kein Spickzettel.</li>
+          <li>Die Nacht davor: <strong>7–8 Std. Schlaf</strong> — kein Lernen nach 22 Uhr.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">4.3 Am Prüfungstag — konkrete Checkliste</div>
+      <div class="checklist">
+        <div class="check-item"><div class="check-box"></div> Frühstücken — kein Zucker direkt vorher (führt zu Energieeinbruch)</div>
+        <div class="check-item"><div class="check-box"></div> Früh genug aufbrechen — Zeitdruck erzeugt zusätzlichen Stress</div>
+        <div class="check-item"><div class="check-box"></div> Nicht mit Mitschülern über den Stoff reden direkt vor der Prüfung</div>
+        <div class="check-item"><div class="check-box"></div> Atemübung: 4 Sek. einatmen, kurz halten, 6 Sek. ausatmen — 3x wiederholen</div>
+        <div class="check-item"><div class="check-box"></div> Erst alle Aufgaben überfliegen — mit den sicheren beginnen</div>
+        <div class="check-item"><div class="check-box"></div> Wenn eine Aufgabe blockiert: Weitergehen, am Ende zurückkommen</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">4.4 Bei starker Prüfungsangst</div>
+      <div class="two-col">
+        <div class="callout">
+          <div class="callout-label">Sofort-Techniken</div>
+          <ul class="tips">
+            <li>5-4-3-2-1-Methode: 5 Dinge sehen, 4 hören, 3 fühlen, 2 riechen, 1 schmecken — unterbricht Panikgedanken sofort.</li>
+            <li>Progressive Muskelentspannung täglich üben.</li>
+          </ul>
+        </div>
+        <div class="callout callout-amber">
+          <div class="callout-label">Professionelle Hilfe</div>
+          <p>Schulberatung und Klassenleitung ansprechen — die meisten Schulen bieten kostenlose Unterstützung. Das ist kein Zeichen von Schwäche.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span class="page-footer-logo">Lern<span>Brücke</span></span>
+    <span class="page-footer-text">Kapitel 4 — Prüfungsangst · kostenlos · darf geteilt werden</span>
+  </div>
+</div>
+
+<!-- ═══════════════ KAPITEL 5 ════════════════════ -->
+<div class="chapter page">
+  <div class="chapter-header">
+    <div class="chapter-num-large">5</div>
+    <div class="chapter-header-text">
+      <div class="chapter-label">Kapitel 5</div>
+      <div class="chapter-title-header">Motivationsseite für Schülerinnen &amp; Schüler</div>
+    </div>
+  </div>
+  <div class="chapter-bar"></div>
+
+  <div class="chapter-body">
+    <p class="chapter-lead">Dieser Teil gehört dir. Hier geht es nicht um Strategie — sondern um das Wichtigste: Du bist gut genug, um weiterzumachen.</p>
+
+    <div class="quote-block" style="margin-bottom:6mm;">
+      <div class="q-text">„Erfolg ist nicht endgültig, Misserfolg ist nicht fatal: Es ist der Mut, weiterzumachen, der zählt."</div>
+      <div class="q-author">— Winston Churchill</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">5.1 Was wirklich zählt</div>
+      <div class="two-col">
+        <ul class="tips">
+          <li>Nicht jede Note — aber jede Anstrengung.</li>
+          <li>Nicht das Talent — aber die Ausdauer.</li>
+          <li>Nicht der Startpunkt — aber die Richtung.</li>
+        </ul>
+        <div class="callout callout-amber">
+          <div class="callout-label">Denk dran</div>
+          <p>Niemand der jetzt erfolgreich ist, hatte es von Anfang an leicht. Die meisten haben einfach öfter weitergemacht als aufgehört.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">5.2 Meine persönlichen Stärken</div>
+      <p class="section-text">Schreibe auf, was du gut kannst — nicht nur in der Schule:</p>
+      <div class="write-field">
+        <div class="write-label">Was ich gut kann (z.B.: zuhören, erklären, kreativ sein, beharrlich sein...):</div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+      <div class="write-field">
+        <div class="write-label">Mein Ziel in diesem Schuljahr:</div>
+        <div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">5.3 Wenn du denkst, du schaffst es nicht</div>
+      <div class="callout">
+        <div class="callout-label">3 Fragen, die helfen</div>
+        <ul class="tips">
+          <li>Hab ich das schon einmal geschafft — auch wenn es schwer war?</li>
+          <li>Was würde ich einem Freund sagen, der genau das Gleiche denkt?</li>
+          <li>Was ist der nächste kleine Schritt — nicht das große Ziel?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <div class="q-text">„Bildung ist das Mächtigste, das du verwenden kannst, um die Welt zu verändern."</div>
+      <div class="q-author">— Nelson Mandela</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span class="page-footer-logo">Lern<span>Brücke</span></span>
+    <span class="page-footer-text">Kapitel 5 — Motivation · LernBrücke · Kostenlos · Darf geteilt werden</span>
+  </div>
+</div>
+
+</body>
+</html>
