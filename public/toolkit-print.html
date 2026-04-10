@@ -44,7 +44,6 @@
       min-height: 297mm;
       display: flex;
       flex-direction: column;
-      page-break-after: always;
     }
     .cover-header {
       background: var(--blau);
@@ -161,7 +160,7 @@
     }
     .chapter-header {
       background: var(--blau);
-      padding: 10mm 16mm 8mm;
+      padding: 7mm 16mm 5mm;
       display: flex;
       align-items: flex-end;
       gap: 5mm;
@@ -193,20 +192,20 @@
     .chapter-bar { background: var(--akzent); height: 3px; }
     .chapter-body {
       flex: 1;
-      padding: 10mm 16mm 8mm;
+      padding: 7mm 16mm 5mm;
     }
     .chapter-lead {
-      font-size: 10.5pt;
+      font-size: 10pt;
       color: var(--grau);
       border-left: 3px solid var(--akzent);
       padding-left: 4mm;
-      margin-bottom: 8mm;
+      margin-bottom: 5mm;
       font-style: italic;
-      line-height: 1.65;
+      line-height: 1.55;
     }
 
     /* ─── Abschnitte ─────────────────────────────────── */
-    .section { margin-bottom: 7mm; }
+    .section { margin-bottom: 5mm; }
     .section-title {
       font-size: 10.5pt;
       font-weight: 800;
@@ -217,10 +216,10 @@
       border-bottom: 1.5px solid var(--hell);
     }
     .section-text {
-      font-size: 10pt;
+      font-size: 9.5pt;
       color: var(--text);
-      line-height: 1.65;
-      margin-bottom: 2.5mm;
+      line-height: 1.55;
+      margin-bottom: 2mm;
     }
 
     /* ─── Listen ─────────────────────────────────────── */
@@ -228,15 +227,15 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 1.5mm;
+      gap: 1mm;
     }
     ul.tips li {
       display: flex;
       align-items: flex-start;
       gap: 2.5mm;
-      font-size: 10pt;
+      font-size: 9.5pt;
       color: var(--text);
-      line-height: 1.55;
+      line-height: 1.5;
     }
     ul.tips li::before {
       content: '';
@@ -254,13 +253,13 @@
       border: 1px solid var(--hell);
       border-left: 3px solid var(--mittel);
       border-radius: 4px;
-      padding: 4mm 5mm;
-      margin: 3mm 0;
+      padding: 3mm 4mm;
+      margin: 2mm 0;
     }
     .callout p, .callout li {
-      font-size: 9.5pt;
+      font-size: 9pt;
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.5;
     }
     .callout-label {
       font-size: 7pt;
@@ -282,8 +281,8 @@
     .quote-block {
       background: var(--blau);
       border-radius: 6px;
-      padding: 5mm 6mm;
-      margin: 4mm 0;
+      padding: 4mm 6mm;
+      margin: 3mm 0;
       text-align: center;
     }
     .quote-block .q-text {
@@ -329,15 +328,15 @@
     .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5mm;
-      margin: 3mm 0;
+      gap: 4mm;
+      margin: 2mm 0;
     }
 
     /* ─── Checkliste ─────────────────────────────────── */
-    .checklist { display: flex; flex-direction: column; gap: 2mm; }
+    .checklist { display: flex; flex-direction: column; gap: 1.5mm; }
     .check-item {
       display: flex; align-items: flex-start; gap: 2.5mm;
-      font-size: 9.5pt; color: var(--text); line-height: 1.5;
+      font-size: 9pt; color: var(--text); line-height: 1.45;
     }
     .check-box {
       flex-shrink: 0;
