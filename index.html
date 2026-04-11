@@ -459,6 +459,171 @@
       }
     }
 
+    /* ─── Modal Overlay ──────────────────────────────── */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(10,20,40,.65);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.25rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .modal-backdrop.open {
+      opacity: 1; pointer-events: all;
+    }
+    .modal {
+      background: var(--weiss);
+      border-radius: 20px;
+      box-shadow: 0 24px 80px rgba(10,20,40,.35);
+      width: 100%; max-width: 560px;
+      max-height: 90svh; max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem 2rem 1.75rem;
+      transform: translateY(20px) scale(.97);
+      transition: transform .28s cubic-bezier(.4,0,.2,1);
+    }
+    .modal-backdrop.open .modal {
+      transform: translateY(0) scale(1);
+    }
+    .modal-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 1rem; margin-bottom: 1.4rem;
+    }
+    .modal-eyebrow {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--blassbg); border: 1.5px solid var(--hell);
+      color: var(--mittel); font-size: .72rem; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      padding: .3rem .75rem; border-radius: 50px;
+      margin-bottom: .6rem;
+    }
+    .modal-title {
+      font-size: 1.25rem; font-weight: 800;
+      color: var(--blau); letter-spacing: -.02em;
+      line-height: 1.25;
+    }
+    .modal-sub {
+      font-size: .85rem; color: #556; margin-top: .4rem; line-height: 1.55;
+    }
+    .modal-close {
+      background: none; border: none; cursor: pointer;
+      color: #8899aa; padding: .25rem; flex-shrink: 0;
+      border-radius: 6px; transition: color .2s, background .2s;
+      line-height: 1;
+    }
+    .modal-close:hover { color: var(--blau); background: var(--blassbg); }
+    .modal-close svg { width: 20px; height: 20px; display: block; }
+
+    .modal-form { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .form-group { display: flex; flex-direction: column; gap: .5rem; }
+    .form-label {
+      font-size: .875rem; font-weight: 700; color: var(--blau);
+      letter-spacing: -.01em;
+    }
+    .form-label .opt { font-weight: 400; color: #889; font-size: .8rem; }
+
+    .radio-group { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .radio-chip input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .radio-chip label {
+      display: inline-block;
+      padding: .4rem .85rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--hell);
+      background: var(--blassbg);
+      font-size: .82rem; font-weight: 600; color: #556;
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .radio-chip input:checked + label {
+      background: var(--blau); border-color: var(--blau);
+      color: #fff;
+    }
+    .radio-chip label:hover { border-color: var(--mittel); color: var(--blau); }
+
+    .form-textarea {
+      width: 100%; resize: vertical; min-height: 72px;
+      border: 1.5px solid var(--hell); border-radius: 10px;
+      padding: .65rem .85rem; font-family: var(--font);
+      font-size: .875rem; color: var(--text);
+      background: var(--blassbg); outline: none;
+      transition: border-color .2s;
+    }
+    .form-textarea:focus { border-color: var(--mittel); background: #fff; }
+
+    .modal-divider {
+      height: 1px; background: var(--hell); margin: .25rem 0;
+    }
+
+    .modal-actions {
+      display: flex; flex-wrap: wrap; gap: .75rem;
+      align-items: center; justify-content: flex-end;
+      margin-top: .5rem;
+    }
+    .btn-skip {
+      background: none; border: none; cursor: pointer;
+      font-size: .85rem; font-weight: 600; color: #889;
+      text-decoration: underline; text-underline-offset: 3px;
+      padding: .4rem .5rem;
+      transition: color .2s;
+    }
+    .btn-skip:hover { color: var(--blau); }
+    .btn-submit {
+      display: inline-flex; align-items: center; gap: .45rem;
+      background: var(--akzent); color: #fff;
+      font-size: .9rem; font-weight: 800; letter-spacing: -.01em;
+      padding: .7rem 1.5rem; border-radius: 50px;
+      border: 2px solid var(--akzent);
+      box-shadow: 0 6px 24px rgba(232,130,12,.28);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-submit:hover {
+      background: var(--blau); border-color: var(--blau);
+      box-shadow: 0 10px 32px rgba(27,63,122,.2);
+    }
+    .btn-submit svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+    .modal-thanks {
+      text-align: center; padding: 1.5rem 0;
+    }
+    .modal-thanks-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: #d6e8f8; color: var(--blau);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem; font-size: 1.5rem;
+    }
+    .modal-thanks h3 {
+      font-size: 1.1rem; font-weight: 800; color: var(--blau);
+      margin-bottom: .4rem;
+    }
+    .modal-thanks p { font-size: .875rem; color: #556; line-height: 1.55; }
+
+    @media (max-width: 480px) {
+      .modal { padding: 1.5rem 1.25rem 1.25rem; }
+      .modal-actions { justify-content: stretch; }
+      .btn-submit { width: 100%; justify-content: center; }
+      .btn-skip { width: 100%; text-align: center; }
+    }
+
+    /* ─── Conditional question groups ───────────────── */
+    .cond-group {
+      display: none; flex-direction: column; gap: 1.1rem;
+      border-left: 3px solid var(--hell);
+      padding-left: 1rem;
+    }
+    .cond-group.active {
+      display: flex;
+      animation: fadeUp .25s ease both;
+    }
+    .cond-label {
+      font-size: .7rem; font-weight: 700; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--mittel);
+    }
+
     /* ─── Footer Trennlinie ──────────────────────────── */
     footer { border-top: 1px solid rgba(255,255,255,.12); }
 
@@ -758,14 +923,311 @@
     </div>
   </footer>
 
+  <!-- ── Umfrage-Modal ── -->
+  <div class="modal-backdrop" id="surveyBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal" id="surveyModal">
+
+      <!-- Formular-Ansicht -->
+      <div id="surveyForm">
+        <div class="modal-header">
+          <div>
+            <div class="modal-eyebrow">2 Minuten · Freiwillig</div>
+            <h2 class="modal-title" id="modalTitle">Kurze Rückmeldung?</h2>
+            <p class="modal-sub">Dein Feedback hilft mir, das Toolkit zu verbessern und zeigt, dass LernBrücke wirklich genutzt wird.</p>
+          </div>
+          <button class="modal-close" id="modalCloseBtn" aria-label="Schließen" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        <form class="modal-form" id="feedbackForm" novalidate>
+
+          <div class="form-group">
+            <div class="form-label">Wer bist du?</div>
+            <div class="radio-group">
+              <span class="radio-chip"><input type="radio" name="wer" id="w1" value="Schüler/in"><label for="w1">Schüler/in</label></span>
+              <span class="radio-chip"><input type="radio" name="wer" id="w2" value="Elternteil"><label for="w2">Elternteil</label></span>
+              <span class="radio-chip"><input type="radio" name="wer" id="w3" value="Lehrkraft"><label for="w3">Lehrkraft</label></span>
+              <span class="radio-chip"><input type="radio" name="wer" id="w4" value="Andere/r"><label for="w4">Andere/r</label></span>
+            </div>
+          </div>
+
+          <!-- Fragen nur für Schüler/innen -->
+          <div class="cond-group" id="condSchueler" aria-live="polite">
+            <div class="cond-label">Für Schülerinnen &amp; Schüler</div>
+            <div class="form-group">
+              <div class="form-label">In welcher Klasse bist du?</div>
+              <div class="radio-group">
+                <span class="radio-chip"><input type="radio" name="klasse" id="kl1" value="5.-6. Klasse"><label for="kl1">5.-6. Klasse</label></span>
+                <span class="radio-chip"><input type="radio" name="klasse" id="kl2" value="7.-8. Klasse"><label for="kl2">7.-8. Klasse</label></span>
+                <span class="radio-chip"><input type="radio" name="klasse" id="kl3" value="9.-10. Klasse"><label for="kl3">9.-10. Klasse</label></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label">Welches Kapitel war am nützlichsten für dich?</div>
+              <div class="radio-group">
+                <span class="radio-chip"><input type="radio" name="kapitel" id="kap1" value="Lernstrategien"><label for="kap1">Lernstrategien</label></span>
+                <span class="radio-chip"><input type="radio" name="kapitel" id="kap2" value="Prüfungsangst"><label for="kap2">Prüfungsangst</label></span>
+                <span class="radio-chip"><input type="radio" name="kapitel" id="kap3" value="Ressourcen online"><label for="kap3">Ressourcen online</label></span>
+                <span class="radio-chip"><input type="radio" name="kapitel" id="kap4" value="Motivationsseite"><label for="kap4">Motivationsseite</label></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label">Hast du eine Lerntechnik ausprobiert?</div>
+              <div class="radio-group">
+                <span class="radio-chip"><input type="radio" name="technik" id="te1" value="Ja, sofort!"><label for="te1">Ja, sofort!</label></span>
+                <span class="radio-chip"><input type="radio" name="technik" id="te2" value="Habe es vor"><label for="te2">Habe es vor</label></span>
+                <span class="radio-chip"><input type="radio" name="technik" id="te3" value="Noch nicht"><label for="te3">Noch nicht</label></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fragen nur für Eltern -->
+          <div class="cond-group" id="condEltern" aria-live="polite">
+            <div class="cond-label">Für Eltern</div>
+            <div class="form-group">
+              <div class="form-label">Wie alt ist dein Kind ungefähr?</div>
+              <div class="radio-group">
+                <span class="radio-chip"><input type="radio" name="kindalter" id="ka1" value="10-11 Jahre"><label for="ka1">10-11 Jahre</label></span>
+                <span class="radio-chip"><input type="radio" name="kindalter" id="ka2" value="12-13 Jahre"><label for="ka2">12-13 Jahre</label></span>
+                <span class="radio-chip"><input type="radio" name="kindalter" id="ka3" value="14-16 Jahre"><label for="ka3">14-16 Jahre</label></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label">Hat dir Kapitel 2 „Wie Eltern helfen können" geholfen?</div>
+              <div class="radio-group">
+                <span class="radio-chip"><input type="radio" name="elternkap" id="ek1" value="Ja, sehr"><label for="ek1">Ja, sehr</label></span>
+                <span class="radio-chip"><input type="radio" name="elternkap" id="ek2" value="Ein bisschen"><label for="ek2">Ein bisschen</label></span>
+                <span class="radio-chip"><input type="radio" name="elternkap" id="ek3" value="Noch nicht gelesen"><label for="ek3">Noch nicht gelesen</label></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="elternwunsch">Was würde euch noch helfen? <span class="opt">(optional)</span></label>
+              <textarea class="form-textarea" id="elternwunsch" name="elternwunsch" placeholder="z.B. mehr Tipps für Hausaufgaben …" rows="2"></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">Wie hast du von LernBrücke erfahren?</div>
+            <div class="radio-group">
+              <span class="radio-chip"><input type="radio" name="quelle" id="q1" value="Schule"><label for="q1">Schule</label></span>
+              <span class="radio-chip"><input type="radio" name="quelle" id="q2" value="Freunde/Familie"><label for="q2">Freunde/Familie</label></span>
+              <span class="radio-chip"><input type="radio" name="quelle" id="q3" value="Social Media"><label for="q3">Social Media</label></span>
+              <span class="radio-chip"><input type="radio" name="quelle" id="q4" value="Sonstiges"><label for="q4">Sonstiges</label></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">Hat dir das Toolkit geholfen?</div>
+            <div class="radio-group">
+              <span class="radio-chip"><input type="radio" name="hilfe" id="h1" value="Ja, sehr"><label for="h1">Ja, sehr</label></span>
+              <span class="radio-chip"><input type="radio" name="hilfe" id="h2" value="Ein bisschen"><label for="h2">Ein bisschen</label></span>
+              <span class="radio-chip"><input type="radio" name="hilfe" id="h3" value="Noch nicht genutzt"><label for="h3">Noch nicht genutzt</label></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="gefallen">Was hat dir am besten gefallen? <span class="opt">(optional)</span></label>
+            <textarea class="form-textarea" id="gefallen" name="gefallen" placeholder="z.B. die Tipps gegen Prüfungsangst …" rows="2"></textarea>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">Würdest du LernBrücke weiterempfehlen?</div>
+            <div class="radio-group">
+              <span class="radio-chip"><input type="radio" name="empfehlung" id="e1" value="Ja"><label for="e1">Ja</label></span>
+              <span class="radio-chip"><input type="radio" name="empfehlung" id="e2" value="Nein"><label for="e2">Nein</label></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="verbesserung">Verbesserungsvorschläge oder Feedback? <span class="opt">(optional)</span></label>
+            <textarea class="form-textarea" id="verbesserung" name="verbesserung" placeholder="Dein Feedback ist willkommen …" rows="2"></textarea>
+          </div>
+
+          <div class="modal-divider"></div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-skip" id="skipBtn">Überspringen &amp; herunterladen</button>
+            <button type="submit" class="btn-submit">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/>
+                <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/>
+              </svg>
+              Absenden &amp; herunterladen
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Danke-Ansicht (zunächst versteckt) -->
+      <div id="surveyThanks" hidden>
+        <div class="modal-thanks">
+          <div class="modal-thanks-icon" aria-hidden="true">✓</div>
+          <h3>Danke für dein Feedback!</h3>
+          <p>Dein Mail-Programm öffnet sich gleich mit dem ausgefüllten Formular.<br>Das PDF wird automatisch heruntergeladen.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <script>
-    // Scroll reveal
+    // ── Scroll reveal ──
     const reveals = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
       { threshold: 0.12 }
     );
     reveals.forEach(el => io.observe(el));
+
+    // ── Survey Modal ──
+    const backdrop   = document.getElementById('surveyBackdrop');
+    const form       = document.getElementById('feedbackForm');
+    const formWrap   = document.getElementById('surveyForm');
+    const thanksWrap = document.getElementById('surveyThanks');
+    const closeBtn   = document.getElementById('modalCloseBtn');
+    const skipBtn    = document.getElementById('skipBtn');
+
+    let pendingHref = './lernbruecke.pdf';
+
+    function openModal() {
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeModal() {
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function triggerDownload(href) {
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = '';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function buildMailto(data) {
+      const lines = [
+        'Hallo Steve,',
+        '',
+        'hier ist mein Feedback zum LernBrücke-Toolkit:',
+        '',
+        'Wer ich bin: ' + (data.wer || '—'),
+        'Wie ich LernBrücke gefunden habe: ' + (data.quelle || '—'),
+        'Hat das Toolkit geholfen: ' + (data.hilfe || '—'),
+        'Was mir am besten gefallen hat: ' + (data.gefallen || '—'),
+        'Würde ich es weiterempfehlen: ' + (data.empfehlung || '—'),
+        'Verbesserungsvorschläge: ' + (data.verbesserung || '—'),
+      ];
+
+      if (data.wer === 'Schüler/in') {
+        lines.push('');
+        lines.push('── Schüler/in ──');
+        lines.push('Klasse: '                      + (data.klasse   || '—'));
+        lines.push('Hilfreichstes Kapitel: '        + (data.kapitel  || '—'));
+        lines.push('Lerntechnik ausprobiert: '      + (data.technik  || '—'));
+      }
+
+      if (data.wer === 'Elternteil') {
+        lines.push('');
+        lines.push('── Elternteil ──');
+        lines.push('Alter des Kindes: '             + (data.kindalter  || '—'));
+        lines.push('Kapitel 2 geholfen: '           + (data.elternkap  || '—'));
+        lines.push('Was noch helfen würde: '        + (data.elternwunsch || '—'));
+      }
+
+      lines.push('', 'Viele Grüße');
+
+      const subject = encodeURIComponent('LernBrücke – Feedback');
+      const body    = encodeURIComponent(lines.join('\n'));
+      return 'mailto:lern.bruecke@gmx.de?subject=' + subject + '&body=' + body;
+    }
+
+    // ── Conditional role questions ──
+    const condSchueler = document.getElementById('condSchueler');
+    const condEltern   = document.getElementById('condEltern');
+
+    document.querySelectorAll('input[name="wer"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        condSchueler.classList.toggle('active', this.value === 'Schüler/in');
+        condEltern.classList.toggle('active',   this.value === 'Elternteil');
+      });
+    });
+
+    // Intercept all download links
+    document.querySelectorAll('a[download]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        pendingHref = this.getAttribute('href') || './lernbruecke.pdf';
+        // Reset form + hide conditional blocks
+        form.reset();
+        condSchueler.classList.remove('active');
+        condEltern.classList.remove('active');
+        formWrap.hidden  = false;
+        thanksWrap.hidden = true;
+        openModal();
+      });
+    });
+
+    // Close on backdrop click (outside modal box)
+    backdrop.addEventListener('click', function(e) {
+      if (e.target === backdrop) closeModal();
+    });
+
+    // Close on ESC (no download triggered)
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && backdrop.classList.contains('open')) closeModal();
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    // Skip → just download
+    skipBtn.addEventListener('click', function() {
+      closeModal();
+      triggerDownload(pendingHref);
+    });
+
+    // Submit → mailto + download
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const data = {
+        wer:          fd.get('wer')               || '',
+        quelle:       fd.get('quelle')            || '',
+        hilfe:        fd.get('hilfe')             || '',
+        gefallen:     (fd.get('gefallen')         || '').trim() || '—',
+        empfehlung:   fd.get('empfehlung')        || '',
+        verbesserung: (fd.get('verbesserung')     || '').trim() || '—',
+        // Schüler/in
+        klasse:       fd.get('klasse')            || '',
+        kapitel:      fd.get('kapitel')           || '',
+        technik:      fd.get('technik')           || '',
+        // Elternteil
+        kindalter:    fd.get('kindalter')         || '',
+        elternkap:    fd.get('elternkap')         || '',
+        elternwunsch: (fd.get('elternwunsch')     || '').trim() || '—'
+      };
+
+      // Show thanks first
+      formWrap.hidden  = true;
+      thanksWrap.hidden = false;
+
+      // Open mail client
+      window.location.href = buildMailto(data);
+
+      // Trigger download after short delay
+      setTimeout(function() {
+        triggerDownload(pendingHref);
+        setTimeout(closeModal, 2000);
+      }, 400);
+    });
   </script>
 
 </body>
