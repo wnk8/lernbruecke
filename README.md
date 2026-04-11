@@ -22,9 +22,9 @@ ohne pädagogisches Fachchinesisch, ohne Budget, mit echter Wirkung.
 
 LernBrücke ist ein **kostenloses PDF-Toolkit** für Schülerinnen und Schüler, die beim Lernen auf sich allein gestellt sind — ohne Nachhilfe, ohne ruhige Ecke, manchmal ohne jemanden, der helfen kann.
 
-Das Toolkit gibt genau diesen Menschen etwas in die Hand: **konkrete Strategien, die funktionieren** — ohne Geld, ohne Anmeldung, ohne Voraussetzungen.
+Das Toolkit gibt genau diesen Menschen etwas in die Hand: ** Strategien, die funktionieren** — kein Abo, keine Anmeldung, keine Voraussetzungen.
 
-Das Projekt entstand **ohne Budget, ohne Verein** — als ehrenamtliches Engagement eines BWL-Studenten aus Frankenthal, der selbst zwei Jahre Nachhilfeerfahrung mitbringt.
+Das Projekt entstand **ohne Budget** — als Hilfestellung für SuS..
 
 ---
 
