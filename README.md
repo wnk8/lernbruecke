@@ -86,11 +86,9 @@ lernbruecke/
 
 ## Über den Initiator
 
-**Steve Lennart Wanko**  
-BWL Nachhaltigkeitsmanagement, 4. Semester · HWG Ludwigshafen
+**Student**  
 
-- Nachhilfelehrer seit 2 Jahren (~12–15 Std./Woche)
-- Unterricht u. a. an einer Gehörlosenschule
+- Nachhilfelehrer seit 2 Jahren
 - Dieses Projekt: ehrenamtlich, kein Budget, keine Förderung
 
 ---
