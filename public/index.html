@@ -661,6 +661,40 @@
       border: none; pointer-events: auto;
     }
 
+    /* ─── FAQ ───────────────────────────────────────── */
+    .faq { background: var(--weiss); }
+    .faq-header { margin-bottom: 2rem; }
+    .faq-list {
+      display: flex; flex-direction: column; gap: .75rem;
+      max-width: 720px; margin: 0 auto;
+    }
+    .faq-item {
+      border: 1.5px solid var(--hell);
+      border-radius: var(--radius);
+      background: var(--blassbg);
+      transition: border-color .2s;
+    }
+    .faq-item[open] { border-color: var(--mittel); }
+    .faq-q {
+      cursor: pointer;
+      padding: 1rem 1.25rem;
+      font-weight: 700; font-size: .95rem; color: var(--blau);
+      list-style: none;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; user-select: none;
+    }
+    .faq-q::-webkit-details-marker { display: none; }
+    .faq-q::after {
+      content: '+'; font-size: 1.25rem; color: var(--mittel);
+      flex-shrink: 0; line-height: 1;
+    }
+    .faq-item[open] .faq-q::after { content: '\2212'; }
+    .faq-a {
+      padding: 0 1.25rem 1rem;
+      font-size: .9rem; color: #3d4f66; line-height: 1.65;
+      margin: 0;
+    }
+
     /* ─── Testimonials ──────────────────────────────── */
     .testimonials { background: var(--weiss); }
     .testimonials-header { text-align: center; margin-bottom: 3rem; }
@@ -1122,6 +1156,44 @@
     </section>
 
   </main>
+
+  <!-- ── FAQ ── -->
+  <section class="faq" aria-labelledby="faq-heading">
+    <div class="container">
+      <div class="faq-header reveal">
+        <span class="section-label">FAQ</span>
+        <h2 class="section-title" id="faq-heading">Häufige Fragen.</h2>
+      </div>
+      <div class="faq-list">
+
+        <details class="faq-item reveal">
+          <summary class="faq-q">Ist das Toolkit wirklich kostenlos?</summary>
+          <p class="faq-a">Ja — vollständig und dauerhaft. Kein Abo, kein Account, keine versteckten Kosten.</p>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-q">Für wen ist LernBrücke geeignet?</summary>
+          <p class="faq-a">Für alle Schülerinnen und Schüler, egal welches Alter oder Schulform. Die Inhalte sind bewusst einfach geschrieben — verständlich für jeden.</p>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-q">Darf ich das Toolkit teilen?</summary>
+          <p class="faq-a">Ja — einfach den Link zur Website weiterschicken. Das Toolkit darf auch ausgedruckt und in der Schule oder Familie verteilt werden.</p>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-q">Wer steckt hinter LernBrücke?</summary>
+          <p class="faq-a">Als Student und Nachhilfelehrer möchte ich meinen Schülern und allen anderen das Lernen so einfach wie möglich machen — deshalb habe ich LernBrücke ins Leben gerufen.</p>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary class="faq-q">Wird das Toolkit weiterentwickelt?</summary>
+          <p class="faq-a">Ja, Updates sind geplant. Wenn du Feedback hast oder etwas vermisst, schreib an <a href="mailto:lern.bruecke@gmx.de" style="color:var(--mittel)">lern.bruecke@gmx.de</a> oder nutze das Formular beim PDF-Download.</p>
+        </details>
+
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer>
