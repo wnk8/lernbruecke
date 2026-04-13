@@ -84,27 +84,6 @@
     .nav-cta:hover { background: #fff; color: var(--blau); }
     .nav-cta:focus-visible { outline: 3px solid var(--akzent); outline-offset: 2px; }
 
-    .nav-right { display: flex; align-items: center; gap: .6rem; }
-
-    .btn-register {
-      display: inline-flex; align-items: center; gap: .4rem;
-      background: transparent; color: rgba(255,255,255,.85);
-      font-size: .82rem; font-weight: 600; letter-spacing: .01em;
-      padding: .44rem .95rem; border-radius: 50px;
-      border: 1.5px solid rgba(255,255,255,.32);
-      cursor: pointer; transition: var(--transition);
-    }
-    .btn-register:hover { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.65); }
-    .btn-registered {
-      display: inline-flex; align-items: center; gap: .4rem;
-      background: rgba(255,255,255,.15); color: #fff;
-      font-size: .82rem; font-weight: 700; letter-spacing: .01em;
-      padding: .44rem .95rem; border-radius: 50px;
-      border: 1.5px solid rgba(255,255,255,.4);
-      cursor: pointer; transition: var(--transition);
-    }
-    .btn-registered:hover { background: rgba(255,255,255,.22); }
-
     /* ─── Hero ───────────────────────────────────────── */
     .hero {
       position: relative; overflow: hidden;
@@ -779,16 +758,13 @@
   <!-- Nav -->
   <nav aria-label="Hauptnavigation">
     <a href="/" class="nav-logo">Lern<span>Brücke</span></a>
-    <div class="nav-right">
-      <button id="navRegisterBtn" class="btn-register" type="button">Anmelden</button>
-      <a href="./lernbruecke.pdf" class="nav-cta" download>
-        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
-          <path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/>
-          <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/>
-        </svg>
-        PDF herunterladen
-      </a>
-    </div>
+    <a href="./lernbruecke.pdf" class="nav-cta" download>
+      <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+        <path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/>
+        <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/>
+      </svg>
+      PDF herunterladen
+    </a>
   </nav>
 
   <main id="main">
@@ -1185,6 +1161,11 @@
         <form class="modal-form" id="feedbackForm" novalidate>
 
           <div class="form-group">
+            <label class="form-label" for="feedbackName">Dein Name <span class="opt">(optional)</span></label>
+            <input class="reg-input" id="feedbackName" name="feedbackName" type="text" placeholder="z.B. Lena" autocomplete="given-name" />
+          </div>
+
+          <div class="form-group">
             <div class="form-label">Wer bist du?</div>
             <div class="radio-group">
               <span class="radio-chip"><input type="radio" name="wer" id="w1" value="Schüler/in"><label for="w1">Schüler/in</label></span>
@@ -1314,92 +1295,6 @@
     </div>
   </div>
 
-  <!-- ── Anmelde-/Login-Modal ── -->
-  <div class="modal-backdrop" id="registerBackdrop" role="dialog" aria-modal="true" aria-labelledby="regModalTitle">
-    <div class="modal" id="registerModal">
-
-      <div class="modal-header">
-        <div>
-          <div class="modal-eyebrow">Kostenlos · Kein Passwort</div>
-          <h2 class="modal-title" id="regModalTitle">Willkommen bei LernBrücke</h2>
-          <p class="modal-sub">Melde dich an, um LernBrücke zu unterstützen und auf dem Laufenden zu bleiben.</p>
-        </div>
-        <button class="modal-close" id="regCloseBtn" aria-label="Schließen" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-      </div>
-
-      <div class="reg-tabs">
-        <button class="reg-tab active" id="tabRegister" type="button" onclick="switchRegTab('register')">Registrieren</button>
-        <button class="reg-tab" id="tabLogin" type="button" onclick="switchRegTab('login')">Bereits angemeldet</button>
-      </div>
-
-      <!-- Registrierungsformular -->
-      <div id="regFormWrap">
-        <form class="modal-form" id="registerForm" novalidate>
-          <div class="form-group">
-            <label class="form-label" for="regVorname">Vorname</label>
-            <input class="reg-input" id="regVorname" name="vorname" type="text" placeholder="z.B. Lena" required autocomplete="given-name" />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="regEmail">E-Mail-Adresse</label>
-            <input class="reg-input" id="regEmail" name="email" type="email" placeholder="deine@email.de" required autocomplete="email" />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="regRolle">Ich bin …</label>
-            <select class="reg-select" id="regRolle" name="rolle">
-              <option value="Schüler/in">Schüler/in</option>
-              <option value="Elternteil">Elternteil</option>
-              <option value="Lehrkraft">Lehrkraft</option>
-              <option value="Sonstiges">Sonstiges</option>
-            </select>
-          </div>
-          <div class="modal-divider"></div>
-          <div class="modal-actions">
-            <button type="submit" class="btn-submit" style="width:100%;justify-content:center">Kostenlos anmelden</button>
-          </div>
-        </form>
-      </div>
-
-      <!-- Login-Formular -->
-      <div id="loginFormWrap" hidden>
-        <form class="modal-form" id="loginForm" novalidate>
-          <p class="modal-sub" style="margin-bottom:.25rem">Gib deine E-Mail-Adresse ein — wir erkennen dich.</p>
-          <div class="form-group">
-            <label class="form-label" for="loginEmail">Deine E-Mail-Adresse</label>
-            <input class="reg-input" id="loginEmail" name="loginEmail" type="email" placeholder="deine@email.de" required autocomplete="email" />
-            <span class="reg-error" id="loginError">E-Mail nicht gefunden. Hast du dich bereits registriert?</span>
-          </div>
-          <div class="modal-divider"></div>
-          <div class="modal-actions">
-            <button type="submit" class="btn-submit" style="width:100%;justify-content:center">Einloggen</button>
-          </div>
-        </form>
-      </div>
-
-      <!-- Danke-State (nach Registrierung) -->
-      <div id="regThanks" hidden>
-        <div class="modal-thanks">
-          <div class="modal-thanks-icon" aria-hidden="true">✓</div>
-          <h3 id="regThanksName">Willkommen!</h3>
-          <p>Du bist jetzt bei LernBrücke angemeldet.<br>Das Toolkit steht dir weiterhin kostenlos zur Verfügung.</p>
-        </div>
-      </div>
-
-      <!-- Willkommen-zurück-State (nach Login) -->
-      <div id="regWelcomeBack" hidden>
-        <div class="modal-thanks">
-          <div class="modal-thanks-icon" aria-hidden="true">👋</div>
-          <h3 id="regWelcomeName">Willkommen zurück!</h3>
-          <p>Schön, dass du wieder da bist.<br>LernBrücke freut sich über jeden Besuch.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <script>
     // ── Scroll reveal ──
     const reveals = document.querySelectorAll('.reveal');
@@ -1444,6 +1339,7 @@
         access_key: '0a18e325-3475-498e-bda2-09be700d0273',
         subject: 'LernBrücke – Feedback',
         from_name: 'LernBrücke Umfrage',
+        'Name':                  data.name         || '—',
         'Wer ich bin':           data.wer         || '—',
         'Wie gefunden':          data.quelle       || '—',
         'Hat geholfen':          data.hilfe        || '—',
@@ -1519,6 +1415,7 @@
       e.preventDefault();
       const fd = new FormData(form);
       const data = {
+        name:         (fd.get('feedbackName')     || '').trim() || '—',
         wer:          fd.get('wer')               || '',
         quelle:       fd.get('quelle')            || '',
         hilfe:        fd.get('hilfe')             || '',
@@ -1548,135 +1445,6 @@
     });
   </script>
 
-  <script>
-    // ── Register / Login Modal ──
-    (function () {
-      const regBackdrop    = document.getElementById('registerBackdrop');
-      const regCloseBtn    = document.getElementById('regCloseBtn');
-      const regFormWrap    = document.getElementById('regFormWrap');
-      const loginFormWrap  = document.getElementById('loginFormWrap');
-      const regThanks      = document.getElementById('regThanks');
-      const regWelcomeBack = document.getElementById('regWelcomeBack');
-      const registerForm   = document.getElementById('registerForm');
-      const loginForm      = document.getElementById('loginForm');
-      const navRegBtn      = document.getElementById('navRegisterBtn');
-
-      // On load: check localStorage
-      (function init() {
-        var saved = JSON.parse(localStorage.getItem('lb_user') || 'null');
-        if (saved && saved.vorname) updateNavRegBtn(saved.vorname);
-      })();
-
-      function updateNavRegBtn(name) {
-        if (!navRegBtn) return;
-        navRegBtn.textContent = '✓ ' + name;
-        navRegBtn.classList.remove('btn-register');
-        navRegBtn.classList.add('btn-registered');
-      }
-
-      window.openRegisterModal = function () {
-        regFormWrap.hidden    = false;
-        loginFormWrap.hidden  = true;
-        regThanks.hidden      = true;
-        regWelcomeBack.hidden = true;
-        document.getElementById('tabRegister').classList.add('active');
-        document.getElementById('tabLogin').classList.remove('active');
-        registerForm.reset();
-        loginForm.reset();
-        document.getElementById('loginError').classList.remove('visible');
-        regBackdrop.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        regCloseBtn.focus();
-      };
-
-      window.closeRegisterModal = function () {
-        regBackdrop.classList.remove('open');
-        document.body.style.overflow = '';
-      };
-
-      window.switchRegTab = function (tab) {
-        var isReg = tab === 'register';
-        regFormWrap.hidden    = !isReg;
-        loginFormWrap.hidden  = isReg;
-        regThanks.hidden      = true;
-        regWelcomeBack.hidden = true;
-        document.getElementById('tabRegister').classList.toggle('active', isReg);
-        document.getElementById('tabLogin').classList.toggle('active', !isReg);
-      };
-
-      // Register submit
-      registerForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var fd = new FormData(registerForm);
-        var data = {
-          vorname:     (fd.get('vorname') || '').trim(),
-          email:       (fd.get('email')   || '').trim(),
-          rolle:       fd.get('rolle')    || 'Sonstiges',
-          zeitstempel: new Date().toISOString(),
-        };
-        if (!data.vorname || !data.email) return;
-
-        // Show thanks immediately
-        regFormWrap.hidden = true;
-        regThanks.hidden   = false;
-        document.getElementById('regThanksName').textContent = 'Willkommen, ' + data.vorname + '!';
-
-        // Persist
-        localStorage.setItem('lb_user', JSON.stringify(data));
-        updateNavRegBtn(data.vorname);
-
-        // Send via Web3Forms
-        fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            access_key: '0a18e325-3475-498e-bda2-09be700d0273',
-            subject: 'LernBrücke – Neue Anmeldung',
-            from_name: 'LernBrücke Registrierung',
-            'Vorname':     data.vorname,
-            'E-Mail':      data.email,
-            'Rolle':       data.rolle,
-            'Zeitstempel': data.zeitstempel,
-          }),
-        }).catch(function () {});
-
-        setTimeout(closeRegisterModal, 2500);
-      });
-
-      // Login submit
-      loginForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var saved   = JSON.parse(localStorage.getItem('lb_user') || 'null');
-        var entered = (document.getElementById('loginEmail').value || '').trim().toLowerCase();
-        var errEl   = document.getElementById('loginError');
-
-        if (saved && saved.email && saved.email.toLowerCase() === entered) {
-          loginFormWrap.hidden  = true;
-          regWelcomeBack.hidden = false;
-          document.getElementById('regWelcomeName').textContent = 'Willkommen zurück, ' + saved.vorname + '!';
-          updateNavRegBtn(saved.vorname);
-          setTimeout(closeRegisterModal, 2500);
-        } else {
-          errEl.classList.add('visible');
-        }
-      });
-
-      // Nav button click
-      if (navRegBtn) navRegBtn.addEventListener('click', openRegisterModal);
-
-      // Close on backdrop click
-      regBackdrop.addEventListener('click', function (e) {
-        if (e.target === regBackdrop) closeRegisterModal();
-      });
-
-      // Close on ESC
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && regBackdrop.classList.contains('open')) closeRegisterModal();
-      });
-
-      regCloseBtn.addEventListener('click', closeRegisterModal);
-    })();
-  </script>
 
 </body>
 </html>
