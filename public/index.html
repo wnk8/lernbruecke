@@ -661,6 +661,34 @@
     }
     .reg-error.visible { display: block; }
 
+    /* ─── PDF Vorschau ──────────────────────────────── */
+    .pdf-preview { background: var(--blassbg); }
+    .pdf-preview-header { text-align: center; margin-bottom: 2.5rem; }
+    .pdf-preview-header .section-sub { margin: 0 auto; }
+    .pdf-frame-wrap {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 48px rgba(27,63,122,.18);
+      background: #fff;
+      border: 1.5px solid var(--hell);
+    }
+    .pdf-frame-wrap iframe {
+      display: block; width: 100%; height: 620px;
+      border: none;
+    }
+    .pdf-mobile-fallback {
+      display: none;
+      flex-direction: column; align-items: center;
+      gap: 1rem; padding: 3rem 1.5rem;
+      text-align: center;
+    }
+    .pdf-mobile-fallback p { font-size: .95rem; color: #556; }
+    @media (max-width: 700px) {
+      .pdf-frame-wrap iframe { display: none; }
+      .pdf-mobile-fallback { display: flex; }
+    }
+
     /* ─── Testimonials ──────────────────────────────── */
     .testimonials { background: var(--weiss); }
     .testimonials-header { text-align: center; margin-bottom: 3rem; }
@@ -1093,6 +1121,34 @@
               </div>
             </div>
 
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PDF Vorschau ── -->
+    <section class="pdf-preview" aria-labelledby="preview-heading">
+      <div class="container">
+        <div class="pdf-preview-header reveal">
+          <span class="section-label">Vorschau</span>
+          <h2 class="section-title" id="preview-heading">Blick ins Toolkit</h2>
+          <p class="section-sub">Schau direkt rein — 5 Kapitel, kostenlos, ohne Anmeldung herunterladen.</p>
+        </div>
+        <div class="pdf-frame-wrap reveal">
+          <iframe
+            src="./lernbruecke.pdf#toolbar=0&navpanes=0&scrollbar=1"
+            title="LernBrücke Toolkit — PDF Vorschau"
+            loading="lazy"
+          ></iframe>
+          <div class="pdf-mobile-fallback">
+            <p>Das PDF lässt sich auf dem Handy am besten direkt öffnen.</p>
+            <a href="./lernbruecke.pdf" class="btn-primary" target="_blank" rel="noopener">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/>
+                <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/>
+              </svg>
+              PDF öffnen
+            </a>
           </div>
         </div>
       </div>
