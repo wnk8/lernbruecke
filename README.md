@@ -5,7 +5,7 @@
 <img width="1470" height="263" alt="Screenshot 2026-04-13 at 11 22 38" src="https://github.com/user-attachments/assets/29fd03a7-c910-4694-b9c2-7edd6b8b5e26" />
 
 
-**Lernstrategien, die wirklich funktionieren. Kostenlos. Ohne Anmeldung.**
+**Lernstrategien, die wirklich funktionieren.**
 
 Konkrete Lernhilfen und echte Motivation statt komplizierter Theorie. 
 Ohne Kosten, ohne Anmeldung, aber mit voller Wirkung für deinen Lernerfolg.
