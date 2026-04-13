@@ -7,8 +7,8 @@
 
 **Lernstrategien, die wirklich funktionieren. Kostenlos. Ohne Anmeldung.**
 
-Praxiserprobte Methoden, konkrete Hilfestellungen und ehrliche Motivation —  
-ohne pädagogisches Fachchinesisch, ohne Budget, mit echter Wirkung.
+Konkrete Lernhilfen und echte Motivation statt komplizierter Theorie. 
+Ohne Kosten, ohne Anmeldung, aber mit voller Wirkung für deinen Lernerfolg.
 
 [![GitHub Pages](https://img.shields.io/badge/Website-wnk8.github.io%2Flernbruecke-2d6a4f?style=flat-square&logo=github)](https://wnk8.github.io/lernbruecke)
 [![PDF Download](https://img.shields.io/badge/PDF-Jetzt%20herunterladen-52b788?style=flat-square&logo=adobeacrobatreader&logoColor=white)](https://wnk8.github.io/lernbruecke/lernbruecke.pdf)
