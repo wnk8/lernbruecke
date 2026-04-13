@@ -20,13 +20,13 @@ ohne pädagogisches Fachchinesisch, ohne Budget, mit echter Wirkung.
 
 ## Was ist LernBrücke?
 
-LernBrücke ist ein kostenloses Toolkit für Schülerinnen und Schüler, die ihre Lernorganisation selbst in die Hand nehmen. Es bietet praxiserprobte Methoden für Situationen, in denen keine externe Unterstützung oder Nachhilfe zur Verfügung steht.
+**LernBrücke** ist ein kostenloses Toolkit für Schülerinnen und Schüler, die ihre Lernorganisation selbst in die Hand nehmen. Es bietet praxiserprobte Methoden für Situationen, in denen keine externe Unterstützung oder Nachhilfe zur Verfügung steht.
 
-Fokus: Effektive Selbsthilfe ohne finanzielle oder bürokratische Hürden.
+**Fokus:** Effektive Selbsthilfe ohne finanzielle oder bürokratische Hürden.
 
-Inhalt: Wissenschaftlich fundierte Methoden wie die Pomodoro-Technik, Strategien gegen Prüfungsangst und Vorlagen zur Wochenplanung.
+**Inhalt:** Wissenschaftlich fundierte Methoden wie die Pomodoro-Technik, Strategien gegen Prüfungsangst und Vorlagen zur Wochenplanung.
 
-Open Source: Das Projekt wurde ohne Budget entwickelt und steht zur freien Nutzung und Weitergabe zur Verfügung.
+**Open Source:** Das Projekt wurde ohne Budget entwickelt und steht zur freien Nutzung und Weitergabe zur Verfügung.
 
 ---
 
@@ -90,7 +90,7 @@ lernbruecke/
 
 **Student**  
 
-- Nachhilfelehrer seit 2 Jahren
+- Nebenberuflich leidenschaftlicher Nachhilfelehrer
 - Dieses Projekt: ehrenamtlich, kein Budget, keine Förderung
 
 ---
