@@ -2,7 +2,8 @@
 
 <img src="https://img.shields.io/badge/LernBr%C3%BCcke-Kostenloses%20Lern--Toolkit-2d6a4f?style=for-the-badge&labelColor=1b3f7a" alt="LernBrücke" height="40"/>
 
-# LernBrücke
+<img width="1470" height="263" alt="Screenshot 2026-04-13 at 11 22 38" src="https://github.com/user-attachments/assets/29fd03a7-c910-4694-b9c2-7edd6b8b5e26" />
+
 
 **Lernstrategien, die wirklich funktionieren. Kostenlos. Ohne Anmeldung.**
 
