@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="LernBrücke – Kostenloses Lern-Toolkit für alle. Lernstrategien, Tipps gegen Prüfungsangst und kostenlose Ressourcen — ohne Anmeldung, ohne Kosten.">
   <title>LernBrücke — Kostenlose Lernhilfe für alle</title>
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="LernBrücke — Kostenlose Lernhilfe für alle">
+  <meta property="og:description" content="Lernstrategien, Tipps gegen Prüfungsangst und kostenlose Ressourcen — ohne Anmeldung, ohne Kosten. Für alle Schülerinnen und Schüler.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wnk8.github.io/lernbruecke/">
+  <meta property="og:locale" content="de_DE">
+  <!-- Twitter/X Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="LernBrücke — Kostenlose Lernhilfe für alle">
+  <meta name="twitter:description" content="Lernstrategien, Tipps gegen Prüfungsangst und kostenlose Ressourcen — ohne Anmeldung, ohne Kosten.">
   <style>
     /* ─── Reset & Base ───────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -661,6 +672,18 @@
       border: none; pointer-events: auto;
     }
 
+    /* ─── Share Button ──────────────────────────────── */
+    .btn-share {
+      display: inline-flex; align-items: center; gap: .45rem;
+      background: transparent; color: rgba(255,255,255,.75);
+      font-size: .88rem; font-weight: 600;
+      padding: .5rem .2rem; border: none; cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,.3);
+      transition: var(--transition);
+    }
+    .btn-share:hover { color: #fff; border-color: #fff; }
+    .btn-share svg { width: 16px; height: 16px; flex-shrink: 0; }
+
     /* ─── FAQ ───────────────────────────────────────── */
     .faq { background: var(--weiss); }
     .faq-header { margin-bottom: 2rem; }
@@ -824,6 +847,14 @@
 
         <div class="hero-actions">
           <a href="#kapitel" class="btn-ghost">Was ist drin? ↓</a>
+          <button class="btn-share" id="shareBtn" type="button" aria-label="LernBrücke teilen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+              <polyline points="16 6 12 2 8 6"/>
+              <line x1="12" y1="2" x2="12" y2="15"/>
+            </svg>
+            Teilen
+          </button>
         </div>
       </div>
 
@@ -1517,6 +1548,31 @@
     });
   </script>
 
+  <script>
+    // ── Share Button ──
+    (function () {
+      var btn = document.getElementById('shareBtn');
+      if (!btn) return;
+      var shareData = {
+        title: 'LernBrücke — Kostenlose Lernhilfe für alle',
+        text: 'Lernstrategien, Tipps gegen Prüfungsangst und kostenlose Ressourcen — kostenlos und ohne Anmeldung.',
+        url: window.location.href,
+      };
+      if (navigator.share) {
+        btn.addEventListener('click', function () {
+          navigator.share(shareData).catch(function () {});
+        });
+      } else {
+        // Desktop-Fallback: URL kopieren
+        btn.addEventListener('click', function () {
+          navigator.clipboard.writeText(window.location.href).then(function () {
+            btn.textContent = 'Link kopiert!';
+            setTimeout(function () { btn.textContent = '\u2191 Teilen'; }, 2000);
+          }).catch(function () {});
+        });
+      }
+    })();
+  </script>
 
 </body>
 </html>
