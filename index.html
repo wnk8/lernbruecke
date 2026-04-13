@@ -1054,7 +1054,7 @@
         <div class="modal-thanks">
           <div class="modal-thanks-icon" aria-hidden="true">✓</div>
           <h3>Danke für dein Feedback!</h3>
-          <p>Dein Mail-Programm öffnet sich gleich mit dem ausgefüllten Formular.<br>Das PDF wird automatisch heruntergeladen.</p>
+          <p>Dein Feedback wurde erfolgreich gesendet.<br>Das PDF wird jetzt heruntergeladen.</p>
         </div>
       </div>
 
@@ -1100,41 +1100,35 @@
       document.body.removeChild(a);
     }
 
-    function buildMailto(data) {
-      const lines = [
-        'Hallo Steve,',
-        '',
-        'hier ist mein Feedback zum LernBrücke-Toolkit:',
-        '',
-        'Wer ich bin: ' + (data.wer || '—'),
-        'Wie ich LernBrücke gefunden habe: ' + (data.quelle || '—'),
-        'Hat das Toolkit geholfen: ' + (data.hilfe || '—'),
-        'Was mir am besten gefallen hat: ' + (data.gefallen || '—'),
-        'Würde ich es weiterempfehlen: ' + (data.empfehlung || '—'),
-        'Verbesserungsvorschläge: ' + (data.verbesserung || '—'),
-      ];
+    async function sendFeedback(data) {
+      const payload = {
+        access_key: '0a18e325-3475-498e-bda2-09be700d0273',
+        subject: 'LernBrücke – Feedback',
+        from_name: 'LernBrücke Umfrage',
+        'Wer ich bin':           data.wer         || '—',
+        'Wie gefunden':          data.quelle       || '—',
+        'Hat geholfen':          data.hilfe        || '—',
+        'Am besten gefallen':    data.gefallen      || '—',
+        'Weiterempfehlung':      data.empfehlung   || '—',
+        'Verbesserungsvorschläge': data.verbesserung || '—',
+      };
 
       if (data.wer === 'Schüler/in') {
-        lines.push('');
-        lines.push('── Schüler/in ──');
-        lines.push('Klasse: '                      + (data.klasse   || '—'));
-        lines.push('Hilfreichstes Kapitel: '        + (data.kapitel  || '—'));
-        lines.push('Lerntechnik ausprobiert: '      + (data.technik  || '—'));
+        payload['Klasse']                 = data.klasse   || '—';
+        payload['Hilfreichstes Kapitel']  = data.kapitel  || '—';
+        payload['Lerntechnik ausprobiert']= data.technik  || '—';
       }
-
       if (data.wer === 'Elternteil') {
-        lines.push('');
-        lines.push('── Elternteil ──');
-        lines.push('Alter des Kindes: '             + (data.kindalter  || '—'));
-        lines.push('Kapitel 2 geholfen: '           + (data.elternkap  || '—'));
-        lines.push('Was noch helfen würde: '        + (data.elternwunsch || '—'));
+        payload['Alter des Kindes']       = data.kindalter   || '—';
+        payload['Kapitel 2 geholfen']     = data.elternkap   || '—';
+        payload['Was noch helfen würde']  = data.elternwunsch|| '—';
       }
 
-      lines.push('', 'Viele Grüße');
-
-      const subject = encodeURIComponent('LernBrücke – Feedback');
-      const body    = encodeURIComponent(lines.join('\n'));
-      return 'mailto:lern.bruecke@gmx.de?subject=' + subject + '&body=' + body;
+      await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload),
+      });
     }
 
     // ── Conditional role questions ──
@@ -1181,8 +1175,8 @@
       triggerDownload(pendingHref);
     });
 
-    // Submit → mailto + download
-    form.addEventListener('submit', function(e) {
+    // Submit → Web3Forms + download
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
       const fd = new FormData(form);
       const data = {
@@ -1192,24 +1186,22 @@
         gefallen:     (fd.get('gefallen')         || '').trim() || '—',
         empfehlung:   fd.get('empfehlung')        || '',
         verbesserung: (fd.get('verbesserung')     || '').trim() || '—',
-        // Schüler/in
         klasse:       fd.get('klasse')            || '',
         kapitel:      fd.get('kapitel')           || '',
         technik:      fd.get('technik')           || '',
-        // Elternteil
         kindalter:    fd.get('kindalter')         || '',
         elternkap:    fd.get('elternkap')         || '',
         elternwunsch: (fd.get('elternwunsch')     || '').trim() || '—'
       };
 
-      // Show thanks first
-      formWrap.hidden  = true;
+      // Danke-Ansicht zeigen
+      formWrap.hidden   = true;
       thanksWrap.hidden = false;
 
-      // Open mail client
-      window.location.href = buildMailto(data);
+      // E-Mail im Hintergrund senden
+      sendFeedback(data).catch(function() {});
 
-      // Trigger download after short delay
+      // Download starten
       setTimeout(function() {
         triggerDownload(pendingHref);
         setTimeout(closeModal, 2000);
